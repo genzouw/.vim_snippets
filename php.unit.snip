@@ -1,0 +1,196 @@
+snippet		assert_equals_private
+alias		assertequalsprivate
+options		head
+prev_word	'^'
+	$array = (array) ${1:object};
+	$className = get_class($1);
+	$fieldName = '${2:fieldName}';
+
+	$this->assertEquals(${3:fieldValue}, $array["\0{$className}\0{$fieldName}"]);${0:}
+snippet		test_with_exception
+alias		testwithexception
+options		head
+prev_word	'^'
+	/**
+	 * @ignore
+	 */
+	public function dataProvider_$1_exception() {
+		return [
+			[
+				// --- $1 : params
+				array(
+				${6:}
+				),
+				// expected
+				array(
+				),
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataProvider_$1_exception
+	 * @expectedException ${7:Exception}
+	 */
+	public function test_${1:MethodName}_exception( $convented, $expected ) {
+	//	$target = $this->getMock$2($this->targetClassName);
+		$target = new $this->targetClassName();
+
+		// ----- Create mock -----
+		$mock$3 = $this->getMock${2:#:ForAbstractClass}(
+			'${3:mockClassname}',
+			// [], 'MockGadget', true, true, true,
+			[ '${4:mockMethodName}' ]);
+		$mock$3
+			->expects($this->${5:once/any/never/at/exactly}())
+			->method('$4')
+			// ->with()
+			->willReturn($others);
+		$target->set$3($mock$3);
+
+		// ----- Validating -----
+		$target->$1($expected[???]);
+	}
+snippet		test_getter_setter
+alias		testgettersetter
+options		head
+prev_word	'^'
+	/**
+	 * getter and setter test.
+	 * @test
+	 */
+	public function testGetterSetterFor${1:camel_case}() {
+		$target = $this->getMockForAbstractClass($this->targetClassName);
+
+		$value = ${2:value};
+		$target->set$1($value);
+		$this->assertSame($value, $target->get$1());
+	}
+	${3:}
+snippet		test_method
+alias		testmethod
+options		head
+prev_word	'^'
+	/**
+	 * @test
+	 */
+	public function test_${1:MethodName}() {
+		$target = new `substitute(expand('%:t'), 'Test.php', '', 'g')`();
+
+		$expected = '';
+
+		// ----- Validating -----
+		$this->assertEquals(
+			$expected,
+			$target->$1()
+		);
+	}
+snippet		test_with_data_provider
+alias		testwithdataprovider
+options		head
+prev_word	'^'
+	/**
+	 * @ignore
+	 */
+	public function dataProvider_$1() {
+		return array(
+			array(
+				// --- $1 : convented values
+				array(
+					'params' => '',
+					'$4.return' => '',
+				),
+				// --- $1 : expected values
+				array(
+					'return' => '',
+				),
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider dataProvider_$1
+	 * @test
+	 */
+	public function test_${1:MethodName}( $convented, $expected ) {
+	//	$target = $this->getMock$2($this->targetClassName);
+		$target = new $this->targetClassName();
+
+		// ----- Create mock -----
+		// $mock$3 = $this->getMockForAbstractClass(
+		$mock$3 = $this->getMock${2:#:ForAbstractClass}(
+			'${3:mockClassname}',
+			array( '${4:mockMethodName}' )
+			// array( 'contructor_params' ), true, true, true,
+		);
+		$mock$3
+			// called count
+			->expects($this->${5:once/any/never/at/exactly}())
+			->method('$4')
+			// ->with()
+			->willReturn($convented['$4.return']);
+		$target->set$3($mock$3);
+
+		// ----- Validating -----
+		$this->assertEquals(
+			$expected['return'],
+			$target->$1($convented['params'])
+		);
+	}
+snippet		test_class
+alias		testclass
+options		head
+prev_word	'^'
+	use `substitute(expand('%:t'), 'Test.php', '', 'g')`;
+
+	class `substitute(expand('%:t'), '.php', '', 'g')` extends PHPUnit_Framework_TestCase  {
+
+		public function setUp() {
+		}
+
+		public function tearDown() {
+		}
+
+		${2:}
+	}
+snippet		assertSame
+alias		assertsame assert_same
+options		word
+	$this->assertSame(${1:expect}, ${2:actual});${3:}
+snippet		assertEquals
+alias		assertequals assert_equals
+options		word
+	$this->assertEquals(${1:expect}, ${2:actual});${3:}
+snippet		test_mock
+alias		testmock getmock
+options		word
+	// ===== Create mock object =====
+	$mock${1:var_name} = $this
+		->getMockBuilder(${2:$1}::class)
+		->setConstructorArgs(array())
+		// ->disableOriginalConstructor()
+		->setMethods(array('${3:mockMethodName}'))
+		->getMock();
+	$mock$1
+		->expects($this->${4:once/any/never/at/exactly}())
+		->method('$3')
+		// ->with(
+		// 	$this->anything('hoge'),
+		// 	$this->equalTo('22'),
+		// 	$this->equalTo('20140402')
+		// )
+		->willReturn($cond);
+	$target->set$2($mock$1);
+snippet		putenv
+alias		setenv
+options		head
+prev_word	'^'
+	putenv("${1:key}=${2:value}");
+snippet		phpQuery
+alias		phpquery
+options		head
+prev_word	'^'
+	$dom = phpQuery::newDocument(file_get_contents(
+		"${1:url}"
+	));
+	${0:}

@@ -1,0 +1,605 @@
+snippet	ife
+options		head
+prev_word   '^'
+	if (${1:true}) {
+		${2}
+	} else {
+
+	}
+snippet	fun
+options	word
+	function ${1:#:function_name}(${2:#:argument}) {
+		${0:}
+	}
+snippet	setTimeout
+	setTimeout(function() {
+		${2}
+	}, ${1:10});
+snippet		class_old
+options		head
+prev_word	'^'
+	${1:class_name} = function (${2:#:first_argument}) {
+	};
+snippet		class
+options		head
+prev_word	'^'
+	class ${1:class_name} {
+		constructor() {
+			${0:}
+		}
+	}
+snippet		pubf
+options		head
+prev_word	'^'
+	${1:class_name}.prototype.${2:method_name} = function (${3:#:first_argument}) {
+		${0:}
+	};
+snippet	log
+options		head
+prev_word   '^'
+	console.log(${1})
+snippet	if
+options		head
+prev_word   '^'
+	if (${1:true}) {
+		${2}
+	}
+snippet	for
+options		head
+prev_word   '^'
+	for (var ${1:} = 0; $1 < ${2:}; $1++) {
+		${3:}
+	}
+#snippet	 ce
+#abbr	createElement
+#	var ${2:$1} = document.createElement("${1:}");
+snippet	$
+options	word
+	$("${1:}")${2:}
+snippet	click_confirm
+options		head
+prev_word   '^'
+	$("${1:}").click(function() {
+		if (!window.confirm("${2:messages}")) return false
+
+		${3:}
+	})
+snippet	keypress
+options		head
+prev_word   '^'
+	.on("keypress", function(e) {
+		${1:}
+	})
+snippet	keypress_enter
+options		head
+prev_word   '^'
+	$("${1:}").keypress(function(evt) {
+		if (!(evt.which && evt.which === 13) || (evt.keyCode && evt.keyCode === 13)) return false
+
+		${2:}
+	})
+snippet	confirm
+options		head
+prev_word   '^'
+	if (!window.confirm("${1:messages}")) return false
+snippet	 localstorage
+options		head
+prev_word   '^'
+	var ${1:}Dao = {
+		read:function() {
+			return JSON.parse(localStorage["$1"] || {})
+		},
+		write:function ( hash ) {
+			localStorage["$1"] = JSON.stringify(hash || {})
+		}
+	}
+snippet	.each
+options	word
+	.each(function() {
+		${1:}
+	})
+snippet	ce
+options		head
+prev_word   '^'
+	let ${1:div} = $("<${2:} />")
+snippet	var
+alias	v
+options		head
+prev_word   '^'
+	let ${1:x} = ${2:}
+snippet	addClass
+	${1:obj}.addClass('${2:class name}')${3}
+snippet	ajax
+	$.ajax({
+		url: "${1:mydomain.com/url}",
+		type: "${2:GET}",
+		dataType: "${3:xml/html/script/json}",
+		data: {
+			"${4:Element or Expression}"
+		},
+		complete: () => {
+			${5:#://called when complete}
+		},
+		success: (data, status) => {
+			${6:#://called when successful}
+		},
+		error: () => {
+			${7:#://called when there is an error}
+		},
+	})
+snippet	hide
+	${1:obj}.hide('${2:slow/400/fast}')${3}
+snippet	rm
+	${1:obj}.remove()${2}
+snippet	ready
+	"use strict"
+	$(function() {
+		${1:}
+	})
+# snippet	text
+	# ${1:obj}.text(${2:'some text'})${3}
+# snippet	html
+	# ${1:obj}.html('${2:Some text <b>and bold!</b>}')${3}
+snippet	replace
+alias	rep
+options	word
+	replace(/${1:src}/mgi, "${2:dest}")${3:}
+snippet	.mouseover
+options	word
+	.on("mouseover", function(e) {
+		${1:}
+	})
+snippet	.mouseout
+options	word
+	.on("mouseout", function(e) {
+		${1:}
+	})
+snippet	hover
+options		head
+prev_word   '^'
+	$("${1:}").hover(
+			function() {
+				${2:}
+			},
+			function() {
+
+			})
+snippet	.focus
+options	word
+	.on("focus", function(e) {
+		${1:}
+	})
+snippet	.blur
+options	word
+	.on("blur", function(e) {
+		${1:}
+	})
+snippet	.click
+options	word
+	.on("click", function(e) {
+		${1:}
+	})
+snippet	.submit
+options	word
+	.on("submit", function(e) {
+		${1:}
+	})
+snippet	.on
+options	word
+	.on("${1:event}", function(e) {
+		${2:}
+	})
+snippet	.change
+options	word
+	.on("change", function(e) {
+		${1:}
+	})
+snippet     alert
+alias       al
+options     word
+	alert(${1:});${2:}
+snippet     :
+options     word
+	"${1:key}": ${2:value},${3:}
+snippet     each
+alias		ea
+options     head
+prev_word   '^'
+	$.each(${1:list}, function( k, v ) {
+		// if (!$1.hasOwnProperty(k)) return
+		${2:}
+	})
+snippet     setInterval
+alias       setinterval
+options     head
+prev_word   '^'
+	setInterval(function() {
+		${2:}
+	}, ${1:milli_seconds})
+snippet		gm_latlng
+alias		gmlatlng
+options		word
+	new google.maps.LatLng(${1:}, ${2:});${3:}
+snippet		gm_map
+alias		gmmap
+options		word
+	new google.maps.Map(${1:}, ${2:});${3:}
+snippet		gm_circle
+alias		gmcircle
+options		word
+	new google.maps.Circle({
+		map:${1:map},
+		center:${2:latlng},
+		radius:${3:200},
+		strokeColor:'${4:}',
+		strokeOpacity:${5:0.8},
+		strokeWeight:${6:2}
+	})
+snippet		parseJSON
+alias		parrsejson jsondecode json_decode json.parse jsonparse
+options		word
+	JSON.parse(${1:})${2:}
+snippet		jQuery.fn.extend
+alias		fn extend
+options		head
+prev_word	'^'
+	jQuery.fn.extend({
+		${1:func_name}: function() {
+			return this.${2:}
+		}
+	 });
+snippet		canvas
+options		head
+prev_word	'^'
+	$(document).ready(function(){
+		var canvas = document.getElementById('${1:canvas_id}');
+
+		if ( ! canvas || ! canvas.getContext ) return;
+
+		var WIDTH = 100;
+		var HEIGHT = 100;
+
+		/* 2Dコンテキスト */
+		var context = canvas.getContext('2d');
+
+		/* 四角を描く */
+		context.beginPath();
+		context.moveTo(WIDTH/2, 0);
+		context.lineTo(WIDTH, HEIGHT/2);
+		context.lineTo(WIDTH/2, HEIGHT);
+		context.lineTo(0, HEIGHT/2);
+		context.closePath();
+		context.stroke();
+	});
+snippet		center
+options		word
+	function center(target) {
+		var zoom = Math.floor(document.body.clientWidth / window.innerWidth * 100)/100;
+		var mgTop = Math.floor($(window).height()/2) + $(document).scrollTop() * zoom
+					- Math.floor($(target).outerHeight(true)/2);
+
+		$(target).css({
+			"position":"fixed",
+			"top":mgTop+"px"
+		});
+		return target;
+	}
+snippet		qunit_ok
+alias		ok qunitok assertok
+options		head
+prev_word	'^'
+	assert.ok(${1:TARGET});
+snippet		qunit_equal
+alias		equal qunitequal assertequal
+options		head
+prev_word	'^'
+	assert.equal(${2:cond}, "${1:explanation}");
+snippet		qunit_test
+alias		test qunittest asserttest
+options		head
+prev_word	'^'
+	assert.test("${1:explanation}", function() {
+		${2:}
+	});
+snippet		qunit_deepEqual
+alias		deepequal qunitdeepequal
+options		head
+prev_word	'^'
+	deepEqual(${1:}, ${2:});
+snippet		attr
+options		word
+	attr("${1:}", ${2:})
+snippet		.attr
+options		word
+	.attr("${1:}", ${2:})
+snippet		css
+options		word
+	css({
+		${1:}
+	})
+snippet		sb_assert_text
+alias		asserttext
+options		head
+prev_word	'^'
+	{
+		"type": "assertText",
+		"locator": {
+			"type": "css selector",
+			"value": "${1:selector:}"
+		},
+		"text": "${2:text}"
+	},${3:}
+snippet		getElementsByTagName
+alias		getelementsbytagname
+options		word
+	document.getElementsByTagName('${1:name}')${2:}
+snippet		_.each
+options		word
+	_.each(${1:list}, function(${2:it}) {
+		${3:}
+	});
+snippet		_.map
+options		word
+	_.map(${1:list}, function(${2:it}) {
+		${3:}
+	});
+snippet		.map
+options		word
+	.map(function(${1:it}) {
+		return ${2:};
+	})${3:}
+snippet		.join
+options		word
+	.join(${1:})
+snippet		_.filter
+options		word
+	_.filter(${1:list}, function(${2:it}) {
+		${3:}
+	});
+snippet		_.groupBy
+options		word
+	_.groupBy(${1:list}, function(${2:it}) {
+		${3:}
+	});
+snippet		_.union
+options		word
+	_.union(${1:list}, function(${2:it}) {
+		${3:}
+	});
+snippet		_.intersection
+options		word
+	_.intersection(${1:list}, function(${2:it}) {
+		${3:}
+	});
+snippet		_.difference
+options		word
+	_.difference(${1:list}, function(${2:it}) {
+		${3:}
+	});
+snippet		_.uniq
+options		word
+	_.uniq(${1:list}, function(${2:it}) {
+		${3:}
+	});
+snippet		_.find
+options		word
+	_.find(${1:list}, function(${2:it}) {
+		${3:}
+	});
+snippet		.open
+options		word
+	.open(
+		${1:url},
+		'${2:window_name}',
+		'width=${3:500}, height=${4:500}, menubar=${5:no}, toolbar=${6:no}, location=${7:no}, status=${8:yes}, resizable=${9:yes}, scrollbars=${10:yes}'
+		/* + ', left=, top=' */
+	)
+snippet		composer
+options		head
+prev_word	'^'
+	{
+		"require": {
+			"monolog/monolog": "*",
+			"devster/ubench": "*"
+		}
+		,"require-dev": {
+			"phpunit/phpunit": "4.1.*"
+		}
+		,"autoload": {
+			"psr-4": {
+				"": "src/"
+			}
+		},
+		"scripts": {
+			"post-install-cmd": [
+				""
+			],
+			"post-update-cmd": [
+				""
+			]
+		}
+	}
+snippet		animate
+options		word
+	animate( { opacity: '${1:toggle/show/hide/0.5}',}, { duration: 3000, easing: 'swing', } )
+snippet		maps_maerker
+alias		mapsmaerker marker
+options		word
+	new google.maps.Marker({
+		"animation":google.maps.Animation.DROP,
+		"draggable":true,
+		"icon":google.maps.SymbolPath.CIRCLE,
+		"map":map,
+		"optimized":true,
+		"position":new google.maps.LatLng(${1:lat}, ${2:lng}),
+		"raiseOnDrag":true
+	})
+snippet		match
+alias		regexp
+options		word
+
+	// ただのmatchメソッド利用サンプル
+	if (matches = url.match(/(.+?)#(.+)/)) {
+		url=matches[1];
+		hash=matches[2];
+	}
+snippet		plugin
+options		word
+	;(function($) {
+		$.fn.${1:plugin_name} = function(options) {
+			var elements = this;
+			elements.each(function() {
+				var opt = $.extend({}, $.fn.$1.defaults, options, $(this).data());
+
+				// $(this)...
+			});
+
+			${0:}
+
+			return this;
+		};
+
+		$.fn.$1.defaults = {
+			text   : 'This is basic plugin!!!'
+		};
+	})(jQuery);
+snippet		jquery-ui-dialog
+alias		dialog
+options		word
+	var dialog = $("#${1:id}").dialog({
+		autoOpen: false,
+		height: 320,
+		width: 350,
+		modal: true,
+		buttons: {
+			"ログイン": { "text":"ログイン", "id":"dialog-login", "click":function(event) {
+				event.preventDefault();
+				form.submit();
+			}},
+			"キャンセル": { "text":"キャンセル", "id":"dialog-cancel", "click":function() {
+				dialog.dialog("close");
+			}}
+		},
+		close: function() {
+			form.find('input').each(function() {
+				$(this).val('');
+			});
+		}
+	});
+
+	// dialog.dialog('open');
+snippet		.wrap
+options		word
+	wrap('<${1:tag}></$1>')${0:}
+snippet		.after
+options		word
+	.after(${0:})
+snippet		.append
+options		word
+	.append(${0:})
+snippet		.appendTo
+options		word
+	.appendTo(${0:})
+snippet		.before
+options		word
+	.before(${0:})
+snippet		random
+options		word
+	Math.floor(Math.random()*${1:size})
+snippet		.inArray
+alias		.inarray
+	.inArray(${1:value}, ${2:array})
+snippet		this
+options		word
+	$(this).${0:}
+snippet		.find
+options		word
+	.find('${1:}').${0:}
+snippet		grunt
+options		head
+prev_word	'^'
+	module.exports = function(grunt){
+		grunt.initConfig({
+
+		});
+
+		grunt.loadNpmTasks('');
+
+		grunt.registerTask('default', ['${1:rsync:deploy}']);
+	};
+snippet		stringify
+alias		JSON.stringify json_encode jsonencode JSON.
+options		word
+	JSON.stringify(${1:object})
+snippet		require
+alias		req
+options		word
+	require("${1:TARGET}");
+snippet     todo
+options     head
+prev_word   '^'
+	// TODO ${1:}
+snippet	forof
+prev_word   '^'
+	for (let ${2:i} of ${1:list}) {
+		${0:}
+	}
+snippet	forin
+prev_word   '^'
+	for (let ${2:i} in ${1:list}) {
+		${0:}
+	}
+snippet	let
+alias	l
+prev_word   '^'
+	let ${1:x} = ${2:};${3:}
+snippet	switch
+	switch ($${1:variable}) {
+		case '${2:value}':
+			${3:}
+			break;
+		${5}
+		default:
+			${4:}
+			break;
+	}
+snippet		preventDefault
+alias		prevent
+options		head
+prev_word	'^'
+	e.preventDefault();
+snippet     fixme
+options     head
+prev_word   '^'
+	// FIXME ${1:}
+snippet		axios
+alias		ajax_axios
+options		head
+prev_word	'^'
+    axios({
+      method: 'GET',
+      url: '',
+    }).then((res) => {
+      if (res.data) {
+        data = res.data
+      }
+    }).catch((res) => {
+      console.error(res)
+    })
+snippet		stdin
+alias		cat
+options		head
+prev_word	'^'
+	const input = require('fs').readFileSync('/dev/stdin', 'utf8')
+snippet		vue
+options		head
+prev_word	'^'
+	const app = new Vue({
+	  el: "#app",
+	  data: {
+	
+	  },
+	  methods: {
+	
+	  },
+	})

@@ -1,0 +1,166 @@
+snippet	ife
+	if (${1}) {
+		${2}
+	} else {
+	}
+snippet	m
+	/**
+	 * ${7:Method Description}
+	 * ${5}
+	 * @return ${6}
+	 */
+	${1:public} ${2:void} ${3:methodName}(${4}) {
+		${8}
+	}
+snippet	gs
+	//getter for $3
+	public ${2:variable_type} get${1:VariableName}() {
+		return ${3:variableName};
+	}
+
+	//setter for $3
+	public void set$1($2 $3) {
+	   this.$3 = $3;
+	}${4}
+snippet	log
+	System.${1:out}.println(${2});
+snippet	if
+	if (${1}) {
+		${2}
+	}
+snippet	for
+	for (${1:int i=0}; ${2:condition}; ${3:i++}) {
+		${4}
+	}
+snippet	class_basic+constructor+main
+	/**
+	 * class $2
+	 * @author ${4:`g:snips_author`}
+	 */
+	${1:public} class ${2:`Snippet_JavaClassNameFromFilename()`}${3} {
+
+		/**
+		  * Constructor for $2
+		  */
+		public $2(${4}) {
+			${5}
+		}
+
+		public static void main(String args[]) {
+		}
+
+	}
+snippet	class_basic
+	/**
+	 * class $2
+	 * @author ${4:`g:snips_author`}
+	 */
+	${1:public} class ${2:`Snippet_JavaClassNameFromFilename()`}${3} {
+
+		/**
+		  * Constructor for $2
+		  */
+		public $2(${5}){
+			${6}
+		}
+
+	}
+snippet	class_basic+constructor
+	/**
+	 * class $2
+	 * @author ${4:`g:snips_author`}
+	 */
+	${1:public} class ${2:`Snippet_JavaClassNameFromFilename()`}${3} {
+
+		/**
+		  * Constructor for $2
+		  */
+		public $2(${5}){
+			${6}
+		}
+
+	}
+snippet     def
+alias       v
+options     head
+prev_word   '^'
+	${1:String} ${2:x} = new ${3:$1}(${4:});
+snippet		skel_junit
+alias		skeljunit
+options		head
+prev_word	'^'
+	package ${2:packagePath}
+
+	import org.junit.Test
+	import static org.junit.Assert.assertEquals
+
+	class ${1:className}Test {
+
+		$1 executor = null
+
+		// this.executor = new $1()
+
+	}
+snippet		test_with_data_provider
+alias		testwithdataprovider
+options		head
+prev_word	'^'
+
+	private ${1:ClassName} target = null;
+
+	@BeforeClass
+	public void setUp() throws Exception {
+		this.target = new ShopFormLogic();
+	}
+
+	@AfterClass
+	public void tearDown() throws Exception {
+	}
+
+	/**
+	 *
+	 */
+	@DataProvider(name = "dataProvider_$2")
+	public Object[][] dataProvider_$2() {
+		return new Object[][] {
+			// -----
+			new Object[] {
+				${7:},
+			},
+			// -----
+		};
+	}
+
+	/**
+	 * @dataProvider dataProvider_$2
+	 **/
+	@Test(dataProvider = "dataProvider_$2")
+	public void test_${2:methodName}( String convented, String expected ) {
+
+		// ----- Create mock -----
+		mock$4 = this.getMock${3:#:ForAbstractClass}(
+			'${4:mockClassname}',
+			// [], 'MockGadget', true, true, true,
+			[ '${5:mockMethodName}' ]);
+		mock$4
+			// called count
+			.expects(this.${6:once/any/never}())
+			.method('$5')
+			// .with()
+			.will(this.returnValue(others));
+		this.target.set$4(mock$4);
+
+		// ----- Validating -----
+		Assert.assertEquals(
+			expected,
+			this.target.$2(convented['params'])
+		);
+	}
+snippet     todo
+options     head
+prev_word   '^'
+	// TODO ${1:}
+snippet     fixme
+options     head
+prev_word   '^'
+	// FIXME ${1:}

@@ -1,0 +1,5 @@
+snippet		pgpass
+alias		pass password skel
+options		head
+prev_word	'^'
+	${1:hostname}:${2:port}:${3:database}:${4:username}:${5:password}

@@ -1,0 +1,75 @@
+snippet		from
+options		head
+prev_word	'^'
+	FROM ${1:alpine}:${2:3.11.3}
+
+	LABEL maintainer "${3:`$SNS_USERNAME`} <${4:`$PRIVATE_EMAIL`}>"
+
+	RUN apk add --no-cache \
+	  bash \
+	  ;
+
+	COPY ./docker-entrypoint.sh /
+	ENTRYPOINT ["/docker-entrypoint.sh"]
+snippet		maintainer
+alias		author
+options		head
+prev_word	'^'
+	LABEL maintainer "${1:`$USER`} <${2:email}>"
+snippet		run
+options		head
+prev_word	'^'
+	RUN ${0:}
+snippet		cmd
+alias		command
+options		head
+prev_word	'^'
+	CMD ["${0:}"]
+snippet		add
+options		head
+prev_word	'^'
+	COPY ${1:client_file_path} ${2:server_file_path}
+snippet		yum
+options		head
+prev_word	'^'
+	RUN yum install -y \
+		${0:} \
+		&& yum clean all
+snippet		expose
+options		head
+prev_word	'^'
+	EXPOSE ${1:port}${0:}
+snippet		sed
+options		head
+prev_word	'^'
+	run sed -i 's#${0:}##g' ${1:file}
+snippet		apt-get
+alias		aptget
+options		head
+prev_word	'^'
+	RUN apt-get update \
+	  && apt-get upgrade -y \
+	  && apt-get -y install \
+	    --no-install-recommends \
+	    git \
+	    unzip \
+	    zlib1g-dev \
+	    libpq-dev \
+	    libicu-dev \
+	    procps \
+	    libxslt-dev \
+	    unixodbc-dev \
+	    locales \
+	  && apt-get clean \
+	  && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
+snippet		entrypoint
+options		head
+prev_word	'^'
+	COPY ./docker-entrypoint.sh /
+	ENTRYPOINT ["/docker-entrypoint.sh"]
+snippet		apk
+options		head
+prev_word	'^'
+	RUN apk add --no-cache \
+	  bash \
+	  ;

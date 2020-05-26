@@ -1,0 +1,37 @@
+include ansible.snip
+
+snippet		docker-compose
+alias		dockercompose dc
+options		head
+prev_word	'^'
+	version: "3"
+	services:
+		${1:hostname}:
+			image: ${2:image}
+			# environment:
+			# volumes:
+			# restart: always
+snippet		mysql
+options		head
+prev_word	'^'
+	  db:
+	   image: mysql:5.7.29
+	   environment:
+	     - MYSQL_ROOT_PASSWORD=${1:root}
+	     - MYSQL_DATABASE=${2:db}
+	     - MYSQL_USER=${3:user}
+	     - MYSQL_PASSWORD=${4:password}
+	   volumes:
+	     - "mysql-database:/var/lib/mysql"
+	volumes:
+	  mysql-database:
+	    driver: local
+snippet		php
+options		head
+prev_word	'^'
+	  web:
+	    image: php:7.4.2-apache
+	    volumes:
+	      - $PWD:/var/www/html
+	    ports:
+		  - 8080:80

@@ -1,0 +1,28 @@
+include vimwiki.snip
+
+snippet		link
+options		word
+	"${1:title}":${0:TARGET}
+snippet		strong
+alias		b
+options		word
+	*${0:TARGET}*
+snippet		img
+options		word
+	!${1:url}!
+snippet		```
+alias		pre
+options		head
+prev_word	'^'
+	{{collapse
+	<pre><code class="${1:}">
+	${0:}
+	</code></pre>
+	}}
+
+snippet		color
+options		word
+	%{color:${1:red}}${0:TARGET}%
+snippet		todo
+options		word
+	%{color:red}@todo%

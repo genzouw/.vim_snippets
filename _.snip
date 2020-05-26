@@ -1,0 +1,428 @@
+snippet		ymd
+options		word
+	${1:`strftime("%Y")`}-${2:`strftime("%m")`}-${3:`strftime("%d")`}${0:}
+snippet	readme
+	========== ========== ==========
+
+	  ${1:soft_name}  ver.${2:version}
+
+	========== ========== ==========
+	【 ソフト名 】
+		$1
+	【 製 作 者 】
+		${3:genzouw}
+	【 開発環境 】
+		${4:Windows7}
+	【 動作環境 】
+		${4:Windows7}
+	【バージョン】
+		$2
+	【最終更新日】
+		`strftime("%Y/%m/%d")`
+	---------- ----------
+	◇ 概要 ◇
+		${5:abbr}
+
+
+	◇ 動作条件 ◇
+
+
+	◇ ファイル構成 ◇
+
+
+	◇ インストール ◇
+
+
+	◇ アンインストール ◇
+
+
+	◇ 使い方 ◇
+		●使い方1
+
+
+		●使い方2
+
+
+	◇ 免責 ◇
+
+
+	◇ 転載 ◇
+
+
+	◇ FAQ・既知のバグ ◇
+
+
+	----------
+	◇ 連絡先 ◇
+		Web : http://
+		E-mail : genzouw@gmail.com
+
+	◇ 履歴 ◇
+
+snippet	modeline
+	`Snippet_Modeline()`
+snippet	issue
+	【`strftime("%Y/%m/%d")` `$USER_NAME_SEI``$USER_NAME_MEI`】
+	${1:}
+snippet	report_business_trip
+	■1. 日時
+		${1:2012}年${2:00}月${3:00}日 ${4:00}:${5:00}〜${6:00}:${7:00}
+
+	■2. 場所
+		${8:}
+
+	■3. 参加者
+
+		◆株式会社 ${9:}
+			* ${10:}様
+		◆`$MY_COMPANY`
+			* ${11:}
+			(敬称略）
+
+
+	■4. 内容
+
+
+
+	■5. 所感
+
+
+
+	以上
+snippet	mail_pack_qa
+	【${1:`$PROJECT`}】ユーザー様試験工程課題（`strftime("%Y/%m/%d")`最新）を送ります
+	--------------------------------------------------------------------------------
+	株式会社${2:} ${3:}様
+
+	お世話になっております。
+	`$USER_NAME_SEI``$USER_NAME_MEI`です。
+
+	`strftime("%Y/%m/%d")`最新のユーザー様試験工程課題を送ります。
+
+
+		--------------------------------------------------
+		`strftime("%Y%m%d")`_${1:01}.zip
+			05_【結合試験以降】$1_課題管理表.xlsx
+		--------------------------------------------------
+
+
+	${4:[ comment ]}
+
+
+
+	以上　よろしくお願い致します。
+
+	━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	　`$MY_COMPANY`
+	　　　　　　`$USER_NAME_SEI` `$USER_NAME_MEI`
+	　E-mail    : `$MY_COMPANY_EMAIL`
+	　FAX       : `$MY_COMPANY_FAX`
+	　TEL       : `$MY_COMPANY_TEL`
+	━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+snippet		date_date
+alias		today
+options     word
+	`strftime("%Y-%m-%d(%a)")`
+snippet	date_date_time
+alias		now
+options     word
+	`strftime("%Y-%m-%d %H:%M:%S")`
+snippet	cmd_sqlplus
+	sqlplus ${1:user}/${2:password}@${3:dbname} ${4:@file}
+snippet     mail
+prev_word   '^'
+	【${1:`$PROJECT`}】${2:subject}
+	--------------------------------------------------
+	${3:}さん
+	お疲れ様です。
+
+
+	${4:TARGET}
+
+
+	よろしくお願いいたします。
+
+	以上（`$USER_NAME_SEI`）
+snippet     mailworksoho
+options     head
+	【${1:`$PROJECT`}】${2:subject}
+	--------------------------------------------------
+	${3:株式会社}${4:} ${5:}様
+
+	お世話になっております。
+	`$USER_NAME_SEI`です。
+
+
+	${0:TARGET}
+
+
+	よろしくお願いいたします。
+
+	以上
+snippet     mailworksoho_first
+options     head
+	【${1:`$PROJECT`}】${2:subject}
+	--------------------------------------------------
+	${3:株式会社}${4:} ${5:}様
+
+	はじめまして。
+	`$USER_NAME_SEI`と申します。
+
+	この度はご連絡いただき誠にありがとうございます。
+
+	${0:TARGET}
+
+
+	よろしくお願いいたします。
+
+	以上
+snippet     title
+options     head
+prev_word   '^'
+	===== ${1:} ===============
+	${2:}
+snippet     agenda
+alias		gijiroku
+options     head
+prev_word   '^'
+	----------------------------------------
+	${1:meeting_name}
+	----------------------------------------
+		*1) 日時
+			- ${2:}/${3:}/${4:} ${5:}:${6:}～${7:}:${8:}
+
+		*2) 場所
+			- ${9:}
+
+		*2) 参加者
+			- ${10:customer}
+
+			- ${11:we}
+
+
+		*4) 目的
+			- ${12:}
+
+		*5) 検討事項
+			- ...
+
+		*6) 添付資料
+			-
+snippet     dengon
+alias       telmemo
+options     head
+prev_word   '^'
+	電話連絡（`strftime("%Y/%m/%d %H:%M")`頃）
+	--------------------------------------------------
+	${1:name}さん
+	お疲れ様です。
+
+
+	以下のような内容でお電話がありました。
+
+		* 日時      :`strftime("%Y-%m-%d %H:%M")` 頃
+		* お名前    :${2:company} ${3:customer} 様
+		* 御電話番号:${4:tel}
+		* 緊急度    :[ ]緊急        [ ]取り急ぎ     [ ]帰社後で可
+					 [ ]折り返し    [ ]連絡します
+		* ご用件    :${5:}
+
+
+	よろしくお願いいたします。
+
+	以上（`$USER_NAME_SEI`）
+snippet     mail_work
+alias       mailwork
+options     head
+prev_word   '^'
+	株式会社${1:} ${2:}様
+
+	お世話になっております。
+	`$MY_COMPANY` `$USER_NAME_SEI`です。
+
+
+	${3:}
+
+
+	以上　よろしくお願い致します。
+
+	━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	　`$MY_COMPANY`
+	　　　　　　`$USER_NAME_SEI` `$USER_NAME_MEI`
+	　TEL       : `$MY_COMPANY_TEL`
+	　FAX       : `$MY_COMPANY_FAX`
+	　E-mail    : `$MY_COMPANY_EMAIL`
+	━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+snippet     qa
+options     head
+prev_word   '^'
+	= ${1:title} =
+
+	== 質問 ==
+
+	=== 質問者 ===
+
+	`$USER_NAME_SEI`
+
+	=== 内容 ===
+
+	${2:#:content}
+
+
+	== 回答 ==
+
+	=== 回答者 ===
+
+	${3:}
+
+	=== 内容 ===
+
+snippet     report_daily
+alias       daily
+options     head
+prev_word   '^'
+	=== メールタイトル
+	【作業報告_`strftime("%Y%m%d")``$USER_NAME_SEI``$USER_NAME_MEI`】
+	=== 本文
+	お疲れ様です。
+
+	本日の作業を報告します。
+
+	---------------------------------
+	■作業時間
+		09:00〜1${1:8}:${2:30}
+
+
+	■作業内容
+		* 案件：`$PROJECT`
+			- ${5:}
+
+
+	■問題点など
+		なし
+
+
+	■感じたこと
+
+
+	---------------------------------
+
+
+	よろしくお願いいたします。
+
+	以上（`$USER_NAME_SEI`）
+snippet		mailo_attach
+alias		mailoattach
+options		head
+prev_word	'^'
+	【${1:`$PROJECT`}】試験工程課題（`strftime("%Y/%m/%d")`最新）を送ります
+	--------------------------------------------------------------------------------
+	株式会社${2:} ${3:}様
+
+	お世話になっております。
+	`$USER_NAME_SEI``$USER_NAME_MEI`です。
+
+	`strftime("%Y/%m/%d")`最新の試験工程課題を送ります。
+
+		--------------------------------------------------
+		`strftime("%Y%m%d")`_${1:01}.zip
+			$1_課題管理表.xlsx
+		--------------------------------------------------
+
+	${5:[ comment ]}
+
+
+	以上　よろしくお願い致します。
+
+	━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	　`$MY_COMPANY`
+	　　　　　　`$USER_NAME_SEI` `$USER_NAME_MEI`
+	　TEL       : `$MY_COMPANY_TEL`
+	　FAX       : `$MY_COMPANY_FAX`
+	　E-mail    : `$MY_COMPANY_EMAIL`
+	━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	----------------------------------------------------------------------------------------------------
+	株式会社$2 $3様
+
+	お世話になっております。
+	`$USER_NAME_SEI``$USER_NAME_MEI`です。
+
+	先ほどのファイル展開のためのパスワードは以下の通りです。
+	（大文字小文字の違いにご注意ください）
+
+		* "${4:password_prefix}" + 本年度(4桁)
+
+
+	以上　よろしくお願い致します。
+
+	━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	　`$MY_COMPANY`
+	　　　　　　`$USER_NAME_SEI` `$USER_NAME_MEI`
+	　TEL       : `$MY_COMPANY_TEL`
+	　FAX       : `$MY_COMPANY_FAX`
+	　E-mail    : `$MY_COMPANY_EMAIL`
+	━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+snippet		ticket
+options		head
+prev_word	'^'
+	status: 1
+	subject: "${1:subject}"
+	start_date: "`strftime("%Y-%m-%d")`"
+	due_date: "`strftime("%Y-%m-")`${2:day}"
+	author: 1
+	project: 1
+	done_ratio: 30
+	tracker: 4
+	fixed_version: 1
+	priority: 2
+	--
+	${3:}
+snippet		auction_checked_payment
+alias		auctioncheckedpayment
+options		head
+prev_word	'^'
+	${1:customer}様
+
+	お世話になっております。
+	${2:auction_id}こと`$USER_NAME_SEI``$USER_NAME_MEI`と申します。
+	　　　　　　
+
+	入金を確認しました。
+	直ちに発送の準備を行います。
+	今しばらくお待ちください。
+
+
+	よろしくお願いいたします。
+snippet		auction_first
+alias		auctionfirst
+options		head
+prev_word	'^'
+	${1:customer}様
+
+	はじめまして。
+	${2:auction_id}こと`$USER_NAME_SEI``$USER_NAME_MEI`と申します。
+	　　　　　　
+
+	このたびは出品中の商品を落札していただき誠にありがとうございます。
+	入金確認後に発送を行います。
+	${3:}
+
+
+	それでは取引完了までよろしくお願いいたします。
+snippet		mail_claim
+alias		mailclaim
+options     head
+	【`strftime("%Y/%m")`】ご請求申しあげます
+	--------------------------------------------------
+	株式会社${3:} ${4:}様
+
+	お世話になっております。
+	`$USER_NAME_SEI`です。
+
+
+	ご多用中誠に恐縮ですが、
+	`strftime("%Y/%m")`分の費用をご請求申し上げます。
+	請求書を添付いたしましたので、ご手配よろしくお願いいたします。
+
+
+	以上

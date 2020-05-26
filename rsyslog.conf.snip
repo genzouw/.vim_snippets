@@ -1,0 +1,18 @@
+snippet		mail
+alias		rsyslog
+options		head
+prev_word	'^'
+	#mailset
+	$ModLoad ommail
+
+	# $ActionMailSMTPServer SMTPサーバ
+	$ActionMailFrom ${1:from_mail_address}
+	$ActionMailTo ${2:to_mail_address}
+	$template mail_subject,"${3:mail_subject}"
+	$template mail_body,"host:%fromhost%\r\ndate:%timereported%\nsyslogseverity:%syslogseverity-text%\nmsg:%msg%\r\n"
+
+	$ActionMailSubject mail_subject
+	$ActionExecOnlyOnceEveryInterval -1
+	# if $syslogseverity <= 4 and not($msg contains 'times') then :ommail:;mail_body
+	if ( $syslogpriority-text == 'info' ) and ( $syslogfacility-text == 'local3' ) then -/var/log/messages
+

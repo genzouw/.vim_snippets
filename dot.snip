@@ -1,0 +1,131 @@
+snippet		diag
+prev_word	'^'
+	digraph main {
+		// rankdir = "LR"
+		graph [
+			overlap = false,
+			splines = curved,
+			ranksep = 2,
+		]
+		node [
+			// shape = ellipse,
+			shape = box,
+			fontsize = 10,
+			fillcolor = white,
+			color = gray,
+			style = filled
+		];
+
+		${1:TARGET}
+	}
+snippet		subgraph
+options		head
+prev_word	'^'
+	subgraph cluster_${1:name} {
+		label = "$1";
+		style = "filled";
+		color = "${2:color}";
+		${0:}
+	}
+snippet     note
+prev_word   '^'
+	.. note::
+		${1:}
+snippet     shape
+prev_word   '^'
+	shape = "${1:}",
+snippet		=
+options		word
+	${1:key} = ${2:value}
+snippet		actor
+prev_word	'^'
+	${1:name} [ label = "${2:}", shape = actor ]
+snippet     csv
+prev_word   '^'
+	.. csv-table:: ${1:title}
+		:delim: |
+		:header: ${2:}
+
+		${3:}
+snippet     server
+options     head
+prev_word   '^'
+	${1:server} {
+		label = "${2:label}";
+		color = pink;
+		${3:shape = flowchart.database,}
+	}
+snippet     ->
+alias		-.
+options     word
+	"${1:src}" -> "${2:dest}" [${0:}];
+snippet     <-
+alias		.-
+options     word
+	<- "${1:src}";
+snippet     <->
+alias		.-.
+options     word
+	-> "${2:dest}" [ dir = both ];
+snippet     process
+options     head
+prev_word   '^'
+	${1:roundedbox} [
+		label = "${2:label}",
+		shape = roundedbox,
+		style = dashed,${3:}
+	];
+snippet     box
+options     head
+prev_word   '^'
+	"${1:name}" [ shape = box ];
+snippet     circle
+options     head
+prev_word   '^'
+	"${1:name}" [ shape = ellipse, fontsize = 11, color = "#B5B136" ];
+snippet     node
+options     head
+prev_word   '^'
+	"${1:name}" [${0:}];
+snippet     dest
+options     head
+prev_word   '^'
+	"${1:dest}" [
+		label = "${2:label}",
+		color = "#F7FF99",
+	];
+snippet		invis
+options		word
+	style = invis
+snippet		directory
+alias		dir
+options		head
+prev_word	'^'
+	"${1:path}" [ shape = folder ];
+snippet		style
+options		word
+	style = "${1:}"${0:}
+snippet		,style
+options		word
+	, style = "${1:}"${0:}
+snippet		fontcolor
+options		word
+	fontcolor = "${1:}"${0:}
+snippet		database
+alias		db
+options		head
+prev_word	'^'
+	"${1:db_name}" [
+		height = 1,
+		width = 1,
+		label = "${2:$1}",
+		shape = "box",
+	]
+snippet		function
+alias		func
+options		head
+prev_word	'^'
+	"${1:name}" [ shape = ellipse, fillcolor = powderblue ];
+snippet		lhead
+options		word
+	lhead = ${1:}

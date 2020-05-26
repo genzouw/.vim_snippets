@@ -1,0 +1,109 @@
+snippet		skel
+options		head
+prev_word	'^'
+	#------------------------------------------------------
+	#ポリシー：全ての送受信パケットを破棄。必要な用途に応じて開けていく。
+	#------------------------------------------------------
+	*filter
+	:INPUT DROP [0:0]
+	:FORWARD DROP [0:0]
+	:OUTPUT DROP [0:0]
+
+	#------------------------------------------------------
+	#ループバックアドレス（自分自身のIP）からの送受信を許可
+	#------------------------------------------------------
+	-A INPUT -i lo -j ACCEPT
+	-A OUTPUT -o lo -j ACCEPT
+
+	#------------------------------------------------------
+	#メンテナンスホスト（xxx.xxx.xxx.xxx）からサーバへのping送受信を許可
+	#サーバーからメンテナンスホストへのPing送受信を許可
+	#Pingリクエスト（Echo Request(8)）およびそのPing応答（Echo Reply(0)）を許可
+	#------------------------------------------------------
+	# -A INPUT -s xxx.xxx.xxx.xxx -p icmp --icmp-type 0 -j ACCEPT
+	# -A OUTPUT -d xxx.xxx.xxx.xxx -p icmp --icmp-type 8 -j ACCEPT
+	# -A INPUT -s xxx.xxx.xxx.xxx -p icmp --icmp-type 8 -j ACCEPT
+	# -A OUTPUT -d xxx.xxx.xxx.xxx -p icmp --icmp-type 0 -j ACCEPT
+
+	#------------------------------------------------------
+	# 公開サービスの接続設定
+	#------------------------------------------------------
+
+	# SSH（ポートは仮に20022に設定）
+	# メンテナンスホスト（xxx.xxx.xxx.xxx）のみ接続を許可
+	# 発信元IPアドレスごとに1分間に2回のアクセス制限
+	# -A INPUT -s xxx.xxx.xxx.xxx -p tcp --dport 10022 -j ACCEPT
+	# -A OUTPUT -d xxx.xxx.xxx.xxx -p tcp --sport 10022 -j ACCEPT
+	-A INPUT -p tcp --dport 10022 -j ACCEPT
+	-A OUTPUT -p tcp --sport 10022 -j ACCEPT
+	-A INPUT -p tcp --dport 10022 -m hashlimit --hashlimit-name ssh --hashlimit 2/m --hashlimit-burst 10 --hashlimit-mode srcip --hashlimit-htable-expire 60000 -j ACCEPT
+
+	#HTTP
+	-A INPUT -p tcp --dport 80 -j ACCEPT
+	-A OUTPUT -p tcp --sport 80 -j ACCEPT
+	#サーバーから外部へのHTTP接続を許可
+	-A INPUT -p tcp --sport 80 -j ACCEPT
+	-A OUTPUT -p tcp --dport 80 -j ACCEPT
+
+	#SMTP
+	-A INPUT -p tcp --dport 25 -j ACCEPT
+	-A INPUT -p tcp --sport 25 -j ACCEPT
+	-A OUTPUT -p tcp --sport 25 -j ACCEPT
+	-A OUTPUT -p tcp --dport 25 -j ACCEPT
+
+	#外部DNSサーバーへの問い合わせを許可
+	-A INPUT -p udp --sport 53 -j ACCEPT
+	-A OUTPUT -p udp --dport 53 -j ACCEPT
+
+	-A OUTPUT -p tcp --sport 443 -j ACCEPT
+	-A OUTPUT -p tcp --dport 443 -j ACCEPT
+
+	# Git (port 9418)
+	# -A INPUT -p tcp --dport git -j ACCEPT
+	-A OUTPUT -p tcp --sport 22 -j ACCEPT
+	-A OUTPUT -p tcp --dport 22 -j ACCEPT
+	-A INPUT -p tcp --dport 9418 -j ACCEPT
+
+
+	#------------------------------------------------------
+	#NTPの問い合わせを許可
+	#------------------------------------------------------
+	-A INPUT -p udp --dport 123 -j ACCEPT
+	-A OUTPUT -p udp --sport 123 -j ACCEPT
+
+	#------------------------------------------------------
+	# 接続済みパケットの送受信を許可
+	#------------------------------------------------------
+	-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+	-A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+	#------------------------------------------------------
+	#ブロードキャスト宛パケットはログを記録せずに破棄
+	#------------------------------------------------------
+	-A INPUT -d 255.255.255.255 -j DROP
+	-A INPUT -d 224.0.0.1 -j DROP
+
+	#------------------------------------------------------
+	#NETBIOS関連のアクセスはログを記録せずに破棄
+	#------------------------------------------------------
+	-A INPUT -p udp -m multiport --dport 137,138,139,445 -j DROP
+
+	#------------------------------------------------------
+	#DropboxのUPDパケット（port 17500）はログを記録せずに破棄
+	#------------------------------------------------------
+	-A INPUT -p udp --dport 17500 -j DROP
+
+	#------------------------------------------------------
+	#ログ
+	#新規にLOGGINGチェインを作成
+	#DROPしたパケットをログに記録（1時間に最大3回）
+	#ログ出力後に破棄
+	#パケットの送受信時にLOGGINGを実行
+	#------------------------------------------------------
+	-N LOGGING
+	-A LOGGING -j LOG --log-prefix DROP: -m limit --limit 3/hour
+	-A LOGGING -j DROP
+	-A INPUT -j LOGGING
+	-A OUTPUT -j LOGGING
+
+	COMMIT

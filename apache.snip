@@ -1,0 +1,223 @@
+snippet		redirect
+options		head
+prev_word	'^'
+	Redirect permanent /${1:from} /${2:to}
+snippet		mod_rewrite
+alias		modrewrite
+options		head
+prev_word	'^'
+	<IFModule mod_rewrite.c>
+		RewriteEngine On
+		RewriteBase /
+		RewriteRule ^${1:#:from}$ ${2:#:to} [${3:R,}L]${4:}
+	</IFModule>
+snippet		rewrite_rule
+alias		rewriterule
+options		head
+prev_word	'^'
+	RewriteRule ^${1:#:from}$ ${2:#:to} [${3:R,}L]${4:}
+snippet		direct_files
+alias		files
+options		head
+prev_word	'^'
+	<Files ~ "^${1:\.ht.+}$">
+		Deny from All
+	</Files>
+snippet		direct_directory
+alias		directory
+options		head
+prev_word	'^'
+	<Directory "${1:path}">
+		${2:}
+		# Deny from All
+	</Directory>
+snippet		mod_userdir
+alias		moduserdir
+options		head
+prev_word	'^'
+	<IfModule mod_userdir.c>
+		UserDir public_html
+		UserDir disabled root
+		<Directory "/home/*/public_html">
+			#AllowOverride FileInfo AuthConfig Limit Indexes
+			AllowOverride All
+			#Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
+			Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec ExecCGI FollowSymLinks
+			<Limit GET POST OPTIONS>
+					Order allow,deny
+					Allow from all
+			</Limit>
+			<LimitExcept GET POST OPTIONS>
+				Order deny,allow
+				Deny from all
+			</LimitExcept>
+		</Directory>
+	</IfModule>
+snippet		mod_deflate
+alias		moddeflate
+options		head
+prev_word	'^'
+	<IfModule mod_deflate.c>
+		AddOutputFilterByType DEFLATE application/atom+xml
+		AddOutputFilterByType DEFLATE application/javascript
+		AddOutputFilterByType DEFLATE application/json
+		AddOutputFilterByType DEFLATE application/rss+xml
+		AddOutputFilterByType DEFLATE application/x-httpd-php
+		AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+		AddOutputFilterByType DEFLATE application/x-font-ttf
+		AddOutputFilterByType DEFLATE application/x-javascript
+		AddOutputFilterByType DEFLATE application/xhtml+xml
+		AddOutputFilterByType DEFLATE application/xml
+		AddOutputFilterByType DEFLATE font/opentype
+		AddOutputFilterByType DEFLATE image/svg+xml
+		AddOutputFilterByType DEFLATE image/x-icon
+		AddOutputFilterByType DEFLATE text/css
+		AddOutputFilterByType DEFLATE text/javascript
+		AddOutputFilterByType DEFLATE text/html
+		AddOutputFilterByType DEFLATE text/plain
+		AddOutputFilterByType DEFLATE text/x-component
+		AddOutputFilterByType DEFLATE text/xml
+	</IfModule>
+snippet		ifmodule
+options		head
+prev_word	'^'
+	<IfModule mod_${1:}.c>
+		${2:}
+	</IfModule>
+snippet		skel
+options		head
+prev_word	'^'
+	Options -Indexes
+
+	<IfModule mod_negotiation.c>
+		Options -MultiViews
+	</IfModule>
+
+snippet		rewritecond
+options		head
+prev_word	'^'
+	RewriteCond %{REQUEST_FILENAME} ${1:!-f/-d}
+snippet allow
+	AllowOverride ${1:#:AuthConfig} ${2:#:FileInfo} ${3:#:Indexes} ${4:#:Limit} ${5:#:Options}
+snippet opt
+	Options ${1:#:All} ${2:#:ExecCGI} ${3:#:FollowSymLinks} ${4:#:Includes} ${5:#:IncludesNOEXEC} ${6:#:Indexes} ${7:#:MultiViews} ${8:#:SymLinksIfOwnerMatch}
+snippet		VirtualHost
+alias		vhost virtualhost
+options		head
+prev_word	'^'
+	<VirtualHost *:80>
+		ServerName ${1:example.org}
+		ServerAdmin webmaster@$1
+		DocumentRoot "${2:dir}"
+		DirectoryIndex index.html index.php
+		ErrorLog logs/$1_error_log
+		CustomLog logs/$1_access_log common
+		<Directory "$2">
+			Options Includes FollowSymLinks
+			AllowOverride All
+			Order allow,deny
+			Allow from all
+		</Directory>
+	</VirtualHost>
+
+snippet		mod_expires
+alias		modexpires
+options		head
+prev_word	'^'
+	<IfModule mod_expires.c>
+		ExpiresActive on
+
+		# Perhaps better to whitelist expires rules? Perhaps.
+		ExpiresDefault                          "access plus 1 month"
+
+		# cache.appcache needs re-requests in FF 3.6 (thx Remy ~Introducing HTML5)
+		ExpiresByType text/cache-manifest       "access plus 0 seconds"
+
+		# Your document html
+		ExpiresByType text/html                 "access plus 0 seconds"
+
+		# Data
+		ExpiresByType text/xml                  "access plus 0 seconds"
+		ExpiresByType application/xml           "access plus 0 seconds"
+		ExpiresByType application/json          "access plus 0 seconds"
+
+		# RSS feed
+		ExpiresByType application/rss+xml       "access plus 1 hour"
+
+		# Favicon (cannot be renamed)
+		ExpiresByType image/x-icon              "access plus 1 week"
+
+		# Media: images, video, audio
+		ExpiresByType image/gif                 "access plus 1 month"
+		ExpiresByType image/png                 "access plus 1 month"
+		ExpiresByType image/jpg                 "access plus 1 month"
+		ExpiresByType image/jpeg                "access plus 1 month"
+		ExpiresByType video/ogg                 "access plus 1 month"
+		ExpiresByType audio/ogg                 "access plus 1 month"
+		ExpiresByType video/mp4                 "access plus 1 month"
+		ExpiresByType video/webm                "access plus 1 month"
+
+		# HTC files  (css3pie)
+		ExpiresByType text/x-component          "access plus 1 month"
+
+		# Webfonts
+		ExpiresByType font/truetype             "access plus 1 month"
+		ExpiresByType font/opentype             "access plus 1 month"
+		ExpiresByType application/x-font-woff   "access plus 1 month"
+		ExpiresByType image/svg+xml             "access plus 1 month"
+		ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
+
+		# CSS and JavaScript
+		ExpiresByType text/css                  "access plus 1 year"
+		ExpiresByType application/javascript    "access plus 1 year"
+		ExpiresByType text/javascript           "access plus 1 year"
+
+		<IfModule mod_headers.c>
+			Header append Cache-Control "public"
+		</IfModule>
+	</IfModule>
+
+snippet		digest
+alias		htdgest password
+options		head
+prev_word	'^'
+	AuthType Digest
+	AuthName "$1 authentication"
+	AuthUserFile /etc/httpd/${1:service_name}.htdigest
+	require valid-user
+
+	# sudo htdigest -c /etc/httpd/$1.htdigest '$1 authentication' ${2:user_name}
+snippet		AddType
+alias		addtype
+options		head
+prev_word	'^'
+	AddType text/javascript ${1:.js}
+snippet		php_value
+alias		phpvalue phpval
+options		head
+prev_word	'^'
+	php_value ${1:key} ${2:value}${0:}
+snippet		etag
+options		head
+prev_word	'^'
+	<Files ~ "\.(css|js|png|jpg|gif|jpeg|ico|html|xhtml)$">
+		# FileEtag Size
+		FileEtag MTime
+		Header unset Pragma
+		Header unset Last-Modified
+	</Files>
+snippet		basic_auth
+alias		basic
+options		head
+prev_word	'^'
+	<Files ~ "^\.ht">
+	    Order allow,deny
+	    Deny from all
+	    Satisfy All
+	</Files>
+
+	AuthUserfile /フルパス/.htpasswd
+	AuthGroupfile /dev/null
+	AuthName "Please enter your ID and password"
+	AuthType Basic
+	require valid-user

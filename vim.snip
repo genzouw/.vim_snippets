@@ -1,0 +1,49 @@
+snippet	fun
+	"Function: $1
+	"Desc: ${3:description}
+	"
+	"Arguments:
+	"${4}
+	function! ${1:name}(${2})
+		${5}
+	endfunction
+snippet	com
+	command! -nargs=${1:number_of_args} ${2:other_params} ${2:name} ${2:command}
+snippet	ife
+	if ${1}
+		${2}
+	else
+	endif
+snippet	try
+	try
+		${2}
+	catch /${1}/
+	endtry
+snippet	log
+	echomsg ${1}
+snippet	if
+	if ${1}
+		${2}
+	endif
+snippet	au
+	autocmd ${1:events} ${2:pattern} ${3:command}
+snippet		macro
+alias		func_macro funcmacro
+options		head
+prev_word	'^'
+	function! ${1:func_name}()
+		let line = getline('.')
+		${3:}
+		call setline(getpos(".")[1], line)
+	endfunction
+
+	command! $1 :call $1()
+	nnoremap @${2:key} :<C-u>$1<CR>
+snippet		nnoremap
+options		head
+prev_word	'^'
+	nnoremap ${1:key} :${2:command}
+snippet		NeoBundle
+alias		neobundle nb
+options		word
+	NeoBundle '${1:TARGET}'

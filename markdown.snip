@@ -1,0 +1,1041 @@
+include dot.snip
+
+snippet		title
+alias		ti t h1
+options		head
+prev_word	'^'
+	# ${0:TARGET}
+
+snippet		subtitle
+alias		subti subt h2
+options		head
+prev_word	'^'
+	## ${0:TARGET}
+
+snippet		hr
+options		head
+prev_word	'^'
+	-----
+snippet		h3
+options		head
+prev_word	'^'
+	### ${0:TARGET}
+snippet		h4
+options		head
+prev_word	'^'
+	#### ${0:TARGET}
+snippet		vimwikitable
+alias		table
+options		head
+prev_word	'^'
+	|   |   |   |   |   |
+	|---|---|---|---|---|
+	|   |   |   |   |   |
+snippet		strong
+alias		b
+options		word
+	**${1:TARGET}**${2:}
+snippet		em
+options		word
+	*${0:TARGET}*
+snippet		img
+options		word
+	![](${0:TARGET})
+snippet		link
+alias		a
+options		word
+	[${1}](${0:TARGET})
+snippet		code
+alias		pre src
+options		head
+prev_word	'^'
+	\`\`\`${1:mime_type}
+	${0:TARGET}
+	\`\`\`
+snippet		skel_blog
+alias		blog
+options		head
+prev_word	'^'
+	# ${1:`expand("%:t:r")`}
+
+	## はじめに
+
+	${2:}
+
+
+	## 検証環境
+
+	\`\`\`bash
+	$ uname -moi
+	`system("echo -n \$(uname -moi)")`
+
+	$ bash -version | head -n 1
+	`system("echo -n \$(bash -version | head -n 1)")`
+	\`\`\`
+
+	## 作業の流れ（作業ログ）
+
+	1. ..
+	2. ..
+
+	## 準備
+
+
+	## 調査
+
+
+	## 結果
+
+
+	## 対策
+
+
+	## ひとこと
+
+
+	## 参考
+
+snippet     agenda
+alias		gijiroku
+options     head
+prev_word   '^'
+	${1:meeting_name}
+	====================
+
+	1) 日時
+	--------------------
+
+	* ${2:}-${3:}-${4:} ${5:}:${6:}～${7:}:${8:}
+
+	2) 場所
+	--------------------
+
+	* ${9:}
+
+	3) 参加者
+	--------------------
+
+	* ${10:customer}
+
+	* ${11:we}
+
+
+	4) 司会・進行
+	--------------------
+
+
+
+	5) 目的(ゴール)
+	--------------------
+
+	- [ ] 案出し/ブレインストーミング
+	- [ ] 決定
+	- [ ] 報告・周知
+
+	### 自分が何を伝えたいか？
+
+	* ...
+
+
+	### 相手が何を求めているのか？
+
+	* ...
+
+
+	6) スケジュール
+	--------------------
+
+	1. アジェンダ説明	: 5m
+	2. 資料を読む		:10m
+
+	7) 検討事項・課題
+	--------------------
+
+	* ...
+
+	8) 会議資料
+	--------------------
+snippet		qiita
+options		head
+prev_word	'^'
+	${1:title}
+	$1
+	====================
+
+	${0:}
+snippet		span
+options		word
+	span[style="color:red"]{${0:TARGET}}
+snippet		project_plan
+alias		projectplan
+options		head
+prev_word	'^'
+	# プロジェクト計画書
+
+	* *作成日 : ${1:`strftime("%Y")`}-${2:`strftime("%m")`}-${3:`strftime("%d")`}*
+	* *作成者 : *
+
+	## 現状
+
+	> なぜ，システム投資を行うことになったのか，それによりどのような目的を達成しようとしているのかを，簡潔な一文で表現したもの。
+	> 具体的なことは後述する背景や狙いに書くので，核心を捉える。
+
+
+	## 問題点・改善点
+
+
+
+	## 目標・達成条件
+
+	> ## 予算
+
+
+	## リスク
+
+	* 仕様に関する不明点が発生した場合に質問させていただきますが、回答が遅くなった場合納期に影響する可能性があります。
+
+
+	## スケジュール
+
+	| date			| task | note |
+	|---------------|------|------|
+	|      			|      |      |
+	| yyyy-mm-dd    | 納品 |      |
+
+
+	## 費用
+
+	| page                                       |  price(税抜) |
+	|--------------------------------------------|-------------:|
+	|                                            |       00,000 |
+	|                                            |       00,000 |
+	|--------------------------------------------|-------------:|
+	| 合計                                       |       00,000 |
+
+	*お支払は「納品日の翌月末」支払いとさせていただきます。**
+
+	## ステークホルダー
+
+	### エンドユーザー
+
+	### お客様
+
+	### 案件一次受け
+
+	### 開発担当
+
+
+
+	## 開発体制
+
+
+	## システム概要
+
+
+	## システム構成
+
+	## OS、言語、ツール
+
+	### APサーバー
+
+	- **OS** :
+	- **言語** :
+	- **ツール** :
+	- **ミドルウェア** :
+
+
+	### DBサーバー
+
+	- **OS** :
+	- **言語** :
+	- **ツール** :
+	- **ミドルウェア** :
+
+
+	## ドキュメント管理
+
+	成果物の配置場所は以下のとおり。
+
+
+	## ソースコード管理
+
+	成果物の配置場所は以下のとおり。
+
+
+
+	## 質問・課題管理
+
+	## 進捗管理
+
+
+
+	_以上_
+
+	---
+
+
+	## 課題メモ
+snippet		daily
+options		head
+prev_word	'^'
+	============================================================
+	■今日のタスク
+
+	- 09:00 - 09:30	task
+
+
+	------------------------------------------------------------
+	■明日のタスク
+
+
+	------------------------------------------------------------
+	■今日の悪かった事
+
+	------------------------------------------------------------
+	■今日の良かった事
+
+	------------------------------------------------------------
+	■一日一気付き
+
+
+	============================================================
+	■その他項目
+
+
+snippet		keijiban
+options		head
+prev_word	'^'
+	■${1:title}:${2:target}
+	====================
+
+	${0:}
+snippet		qa
+options		head
+prev_word	'^'
+	Q&A
+	--------------------
+
+	### ${1:title}？
+
+	#### Q
+
+	${2:explain}
+
+	#### A
+
+	${0:}
+snippet		readme
+options		head
+prev_word	'^'
+	# ${1:app_name}
+
+	[![Docker Cloud build status](https://img.shields.io/docker/cloud/build/`$GITHUB_USERNAME`/$1?style=for-the-badge)](https://hub.docker.com/r/`$GITHUB_USERNAME`/$1/)
+	[![Docker Pulls](https://img.shields.io/docker/pulls/`$GITHUB_USERNAME`/$1.svg?style=for-the-badge)](https://hub.docker.com/r/`$GITHUB_USERNAME`/$1/)
+	[![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/`$GITHUB_USERNAME`/$1.svg?style=for-the-badge)](https://hub.docker.com/r/`$GITHUB_USERNAME`/$1/)
+
+
+	[![dockeri.co](https://dockeri.co/image/`$GITHUB_USERNAME`/$1)](https://hub.docker.com/r/`$GITHUB_USERNAME`/$1)
+
+	## Description
+
+	${2:overview}
+
+	*Please contact me anytime if you have a problem or request! My information is posted at the bottom of this document.*
+
+
+	## Demo
+
+
+	## Requirements
+
+	* [Docker](https://www.docker.com/)
+
+	## Installation
+
+	**You do not need to install !**
+
+	## Usage
+
+	\`\`\`bash
+	$ xxx
+	\`\`\`
+
+	**I recommend that you set the following alias in \`~/.*rc\`.**
+
+	\`\`\`bash
+	$ alias td='docker run --rm --volumes-from $1-config genzouw/$1'
+	\`\`\`
+
+	## Configuration
+
+	\`\`\`bash
+	# hogehoge
+	$ export XXX=
+	\`\`\`
+
+	## Relase Note
+
+	|date      |version|note          |
+	|---       |---    |---           |
+	|`system("echo -n $(date +%Y-%m-%d)")`|0.1    |first release.|
+
+
+	## License
+
+	This software is released under the MIT License, see LICENSE.
+
+
+	## Contribution
+
+
+	## Help
+
+	Got a question ?
+
+	File a [Github issue](https://github.com/genzouw/$1/issues), send an email to [genzouw@gmail.com](mailto:genzouw@gmail.com) or tweet to [@genzouw](https://twitter.com/genzouw) on Twitter.
+
+	## Author Information
+
+	[genzouw](https://genzouw.com)
+
+	* Twitter   : @genzouw ( https://twitter.com/genzouw )
+	* Facebook  : genzouw ( https://www.facebook.com/genzouw )
+	* LinkedIn  : genzouw ( https://www.linkedin.com/in/genzouw/ )
+	* Gmail     : genzouw@gmail.com
+snippet		time_record
+alias		timerecord record
+options		head
+prev_word	'^'
+	- ${1:00}:${2:00} - ${3:$1}:${4:$2}	${5:task}
+
+snippet		closing
+options		head
+prev_word	'^'
+	Closing meeting
+	====================
+
+	## Keep
+
+
+	## Problem
+
+
+	## Try
+
+snippet		test_plan
+alias		testplan
+options		head
+prev_word	'^'
+	テスト計画
+	====================
+
+	1.目的
+	--------------------
+
+	プロジェクトにおけるテストフェーズ全体の方針と計画を明らかにする。
+	テスト計画書で決定されるべき主な要素は、以下の通りである。
+
+	- テストの定義
+	- テストの範囲
+	- テスト環境
+	- サーバー構成
+	- テストツール
+	- 不具合・課題の管理方法
+	- 工程・スケジュール
+	- 体制図
+	- テストプロジェクトの開始条件
+
+	2.テストの定義
+	--------------------
+
+	* 参考 : [Qiita](https://qiita.com/kawasima/items/1fed574e7456edbad727)
+
+	- 結合テスト
+
+	3.テストの範囲
+	--------------------
+
+	### 正常系
+
+	※導入から日々の運用までの流れを列挙してあるが、取り消し線部分は対象外
+
+	1. aaa
+	2. bbb
+	3. ccc
+
+
+	### 異常系
+
+	1. メールによるエラー通知
+	2. メールによるワーニング通知
+	3. メールによる遅延通知
+
+	4.各シナリオの詳細
+	--------------------
+
+	xxxxx
+
+	5.テスト環境
+	--------------------
+
+	AWSサーバーを利用
+
+	### サーバー構成
+
+	xxx
+
+
+	6.テストツール
+	--------------------
+
+	1. WEBブラウザ
+	2. メーラー
+		- Gmail
+
+	7.不具合・課題の管理方法
+	--------------------
+
+	Redmineに蓄積していく。 日々の進捗確認時に内容を共有する。
+
+	8.工程・スケジュール
+	--------------------
+
+	WBSを参照のこと。
+
+	9.体制
+	--------------------
+
+	- テスト計画 :Aさん
+	- テスト設計 :Aさん
+	- テストレビュー :Aさん
+	- テスト実施 :Aさん
+
+	10.テストプロジェクトの開始条件
+	--------------------
+
+	- レビュー
+		- 全体テスト計画書（本文書）がテストリーダー、ソフトウェア開発チームマネージャ、環境構築マネージャによるレビューを受け、指摘事項がすべて対応されていること。
+	- 承認
+		- 全体テスト計画書（本文書）がプロジェクトマネージャにより承認されていること。
+
+
+
+	以上
+snippet		report
+options		head
+prev_word	'^'
+	# ${1:調査内容タイトル}
+
+	## 調査の目的
+
+	${1:}
+
+	## 調査の概要
+
+	### 実施期間
+
+	### 対象
+
+	### 項目
+
+
+	-----
+
+	## 調査結果
+
+	## 分析
+
+	## 対策
+
+	## 添付書類
+snippet		bug_report
+alias		bugreport report_bug reportbug
+options		head
+prev_word	'^'
+	# ${1:件名}
+
+
+	## 検出者
+
+	${0:}
+
+
+	## 検出日時
+
+	`strftime("%Y-%m-%d(%a)")`
+
+
+	## 検出経路
+
+	[ ]メール通知 / [ ]偶発的 / [ ]テスト実施時 / [ ]その他
+
+
+	## 確認環境
+
+	### PC
+
+	### 確認ブラウザ
+
+
+
+	## 障害内容
+
+	### where
+
+	### whom
+
+	### what
+
+	### which
+
+
+	## 原因
+
+
+	## スクリーンショット等
+
+
+
+	## 影響
+
+
+
+snippet		procedure
+options		head
+prev_word	'^'
+	# リリース作業手順
+
+	## 作業名
+
+	${0:}
+
+
+	## 作業担当者
+
+
+	## スクリプトユーザー
+
+
+	## リリース判定日
+
+
+	## 作業期間
+
+
+	## 詳細
+snippet		design_plan
+alias		designplan architecture
+options		head
+prev_word	'^'
+	# 外部設計
+
+	##  目的
+
+	> なぜ，システム投資を行うことになったのか，それによりどのような目的を達成しようとしているのかを，簡潔な一文で表現したもの。
+	> 具体的なことは後述する背景や狙いに書くので，核心を捉える。
+
+
+	##  背景
+
+	##  狙い
+
+	##  サービス対象範囲
+
+	##  サービス対象外範囲
+
+	## 制約事項
+
+	###  命名規約
+
+	###  法令・ガイドライン一覧と遵守範囲（準拠すべき規格、フレームワーク等）
+
+
+
+	## 性能要件
+
+	### オンライン処理量の想定
+
+	### オンライン処理ピーク時特性の考え方
+
+	### 目標オンラインレスポンスタイム
+
+	### バッチ処理量の想定
+
+	### バッチ処理ピーク時特性の考え方
+
+	### 目標バッチレスポンスタイム
+
+
+
+	## セキュリティ要件
+
+	### アクセス制限
+
+	### 操作制限
+
+	### 暗号化
+
+
+
+	## ログ管理要件
+
+	### ログ管理対象（ログ種類・保存期間）
+
+	### ログ管理方針（ログ出力レベルの切り替え等）
+
+
+
+	## システム構成概要
+
+	### システム構成概要図
+
+	### アプリケーション構成概要図
+
+	### ソフトウェア一覧
+
+
+
+
+	## アーキテクチャ概要
+
+	### アーキテクチャ概要図
+
+	### システム開発環境
+
+	### 文字コード・範囲（外字の利用等）
+
+
+
+	## WebAPI方式
+
+	### WebAPIの目的と概要
+
+	### WebAPIの基本方針
+
+	### 準拠仕様
+
+	- プロトコル(SOAP/HTTP、FTP）
+	- WS-I Basic Profile等
+
+	### セキュリティ
+
+	- 秘匿性
+	- 完全性
+	- 否認防止
+
+
+
+
+	## 統合認証方式
+
+	### 統合認証方法・手順
+
+
+
+
+	## 操作制限実装方式
+
+	### 機能・役割などの種類
+
+	### 制御したい操作及び実現方法
+
+
+
+
+
+	## システム連携方式一覧
+
+	### システム連携方式のパターン一覧とその概要
+
+
+
+
+	## 閉塞・予閉塞方式
+
+	### システム(サービス)予閉塞・閉塞の方式
+
+	### サービス統合基盤の予閉塞・閉塞の有無
+
+	### 他システムの予閉塞・閉塞の有無
+
+
+
+	## バッチ処理方式（方針・ＨＷ／ＳＷ）
+
+	### システム運用年月日、時間帯
+
+	### ジョブスケジューラー
+
+	- System Walker / JP1 / and so on
+
+	### バッチ実行予定・実行状態の管理、実行結果の蓄積、確認方法
+
+	### バッチの実績情報の出力に関する、出力方法、実装方法、出力ファイル名、参照方
+
+	### バッチ処理に遅延が生じた時の影響範囲と対処方式
+snippet		calendar
+alias		cal
+options		head
+prev_word	'^'
+	| 日付 | マイルストーン |
+	|------|----------------|
+	| ${0:}     |                |
+	|      |                |
+	|      |                |
+	|      |                |
+	|      |                |
+	|      |                |
+snippet		service_design
+alias		servicedesign
+options		head
+prev_word	'^'
+	ゴール
+	====================
+
+	**商品管理データ出荷更新API** の**設計書** を作成する（ _Wiki_ にまとめる予定）
+
+	以下の項目を規定。
+
+	1. Protocol
+	1. Pre-condition
+	1. Input
+		- Format
+		- Fields
+	1. Check
+		- Input Check
+		- System Status Check
+	1. Logic
+	1. Output
+		- Format
+		- Fields
+	1. Post-condition
+snippet		img_base64
+alias		base64
+options		word
+	<img src="data:image/png;base64,${0:}" />
+snippet		workflow
+options		head
+prev_word	'^'
+	休日出勤申請(${1:`strftime("%Y")`}-${2:`strftime("%m")`}-${3:dd})
+
+	## 出勤日時
+
+	$1-$2-$3 9:00 - 18:00
+
+
+	## 会社に滞在している時間
+
+	9 h
+
+
+	## 休憩時間
+
+	1 h
+
+
+	## 場所
+
+	${4:place}
+
+
+	## 申請理由
+
+	* ${5:reason}
+
+
+	## 振休登録
+
+	振休xxxxx：Aさん
+snippet		workflow-hurikyu
+options		head
+prev_word	'^'
+	# 標題
+
+	振替休日申請（休出申請 No.${1:xxxxx} 分）
+
+
+	# 事由
+
+	休出申請 No.$1 分 の振替休日をいただきます。
+snippet		@todo
+alias		@to
+options		word
+	@todo ${0:TARGET}
+snippet		todo
+alias		to td
+options		head
+prev_word	'^'
+	* [ ] ${0:TARGET}
+snippet		detail_design
+alias		detaildesign design
+options		head
+prev_word	'^'
+	# ${1:仕様書タイトル}
+
+	## Overview
+
+	## Input
+
+	## Validation
+
+	## Process
+
+	## Output
+
+	## Exception
+snippet		task
+alias		task ticket
+options		head
+prev_word	'^'
+	${1:explain}
+
+	# ゴール
+
+	${0:}
+
+
+	# 要望の背景
+
+
+	# その他
+snippet		gravizo
+options		head
+prev_word	'^'
+	![Alt text](http://g.gravizo.com/g?
+		digraph G {
+			aize ="4,4";
+			main [shape=box];
+			main -> parse [weight=8];
+					parse -> execute;
+			main -> init [style=dotted];
+			main -> cleanup;
+			main -> printf [style=bold,label="100 times",color=red];
+			execute -> { make_string; printf}
+			init -> make_string;
+					make_string [label="make a string"];
+			node [shape=box,style=filled,color=".7 .3 1.0"];
+			execute -> compare[color=red];
+		}
+	)
+snippet		server_design
+alias		serverdesign
+options		head
+prev_word	'^'
+
+	# サーバー情報
+
+	## ネットワーク
+
+	| 項目         | 設定値 |
+	|--------------|--------|
+	| ホスト名     | ?      |
+	| アドレス     | ?      |
+	| マスク       | ?      |
+	| ゲートウェイ | ?      |
+	| DNS          | ?      |
+
+
+	## OS
+
+	| 項目                    | 設定値           |
+	| ----------------------- | ---              |
+	| ディストリビューション  | Amazon Linux AMI |
+	| バージョン              | 2015.09          |
+
+
+	## ミドルウェア
+
+	\`\`\`bash
+	$ php -v
+	PHP 5.5.31 (cli) (built: Jan  6 2016 13:27:11)
+	Copyright (c) 1997-2015 The PHP Group
+	Zend Engine v2.5.0, Copyright (c) 1998-2015 Zend Technologies
+		with Zend OPcache v7.0.6-dev, Copyright (c) 1999-2015, by Zend Technologies
+	\`\`\`
+
+	## その他セットアップ手順
+
+snippet		collapse
+options		head
+prev_word	'^'
+	{{collapse(詳細を表示...)
+	\`\`\`
+	${0:}
+	\`\`\`
+	}}
+snippet		md
+options		word
+	${1:`strftime("%m")`}-${2:`strftime("%d")`}(${3:`strftime("%a")`})
+snippet		rm_project_customer
+options		head
+prev_word	'^'
+	# お客様会社名
+
+
+
+	# ステークホルダ
+
+	* A 様
+	* B 様
+
+	# 契約内容
+
+
+
+	# 取引開始日
+
+	yyyy-mm-dd
+
+	# 主な連絡方法
+
+	| ツール   | ID               |
+	|----------|------------------|
+	| Mail     | -                |
+	| Skype    | -                |
+	| Chatwork | -                |
+	| Tel      | -                |
+
+	# その他
+snippet		strike-through
+alias		strikethrough
+	~~${0:TARGET}~~
+snippet		release_procedure
+alias		releaseprocedure
+options		head
+prev_word	'^'
+	# リリース手順
+
+	## 目次
+
+	## 1.作業概要
+
+	## 2.作業対象者
+
+	## 3.作業対象サーバ
+
+	* LinuxのCUI操作が可能
+
+	## 4.手順詳細
+
+	### 4.1.xxxxxxxx
+
+	### 4.2.xxxxxxxx
+snippet		bash
+alias		sh
+options		head
+prev_word	'^'
+	\`\`\`bash
+	${0:TARGET}
+	\`\`\`
+snippet		mermaid
+options		head
+prev_word	'^'
+	\`\`\`mermaid
+    sequenceDiagram
+		participant client as クライアント
+		participant web as Webサーバ
+		participant db as DBサーバ
+
+		client ->>+ web : request
+		web -->>- client : response
+	\`\`\`

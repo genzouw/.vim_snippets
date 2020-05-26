@@ -1,0 +1,677 @@
+snippet	base
+	<base href="<++>"<+ target="<++>"+>/>
+snippet	input
+	<input type="${1:text/submit/hidden/button}" name="${2}" value="${3:value}" id="${4:$2}"/>${5}
+snippet	style
+	<style type="text/css"  media="all">
+	  ${1}
+	</style>
+snippet	textarea
+	<textarea name="${1:Name}" rows="${2:8}" cols="${2:40}">${3}</textarea>
+snippet	div
+	<div id="${1}">
+		${2}
+	</div>
+snippet	meta
+	<meta name="${1:name}" content="${2:content}"/>
+snippet	label
+	<label for="${1:id}">${2:label_text}</label>
+snippet	img
+	<img src="${1}"${2} />
+snippet	t
+	<${1:div}${2}>
+		${3}
+	</$1>${4}
+snippet	option
+	<option value="${1}">${2}</option>
+snippet	link
+	<link rel="${1:stylesheet}" href="${2:path-to-stylesheet}.css" type="text/css" media="${3:screen}" charset="${4:UTF-8}"/>${5}
+snippet	body
+	<body id="${1}">
+		${2}
+	</body>
+snippet	select
+	<select name="${1}" id="${2}">
+		${3}
+	</select>
+snippet	h1
+	<h1 id="${1}">${2}</h1>
+snippet	inputl
+	<label for="${1:input_id}">${2}</label>
+	<input type="${3:text/submit/hidden/button}" name="${4:$1}" value="${5:value}" id="${6:$1}"/>${7}
+snippet	ifie
+	<!--[if IE ${1:6}]>${2}<![endif]-->${3}
+snippet	mailto
+	<a href="mailto:<+email+><+?subject=<+feedback+>+>"><+email me+></a>
+snippet	form
+	<form action="${1:action}" method="${2:post}" accept-charset="UTF-8">
+	  ${3}
+
+	  <p><input type="submit" value="Continue &rarr;"/></p>
+	</form>
+snippet	head
+	<head>
+	  <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
+	  <title>${1:Page Title}</title>
+	  ${2}
+	</head>
+snippet	doctype
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">${1}
+snippet	href
+	<a href="${1}">${2}</a>
+snippet	table_hardcore
+	<table<+ width="<+100%+>" border="<+0+>" cellspacing="<+0+>" cellpadding="<+5+>"<++>+>>
+		<tr>
+			<th><++></th>
+		</tr>
+
+		<tr>
+			<td></td>
+		</tr>
+	</table>
+snippet	table_basic
+	<table class="${1}">
+		${2}
+	</table>
+snippet	script_include_script
+	<script src="${1:url}"></script>
+snippet	script_inline_script
+	<script>
+	//<![CDATA[
+		${1}
+	//]]>
+	</script>
+snippet	skel_basic_with_meta
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0
+	Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+	<html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta http-equiv="Content-Script-Type" content="text/javascript; charset=UTF-8" />
+			<meta http-equiv="Content-Style-Type" content="text/css; charset=UTF-8" />
+			<meta name="keywords" content="${2:}" />
+			<meta name="description" content="${3:}" />
+			<title>${1:Page Title}</title>
+		</head>
+
+		<body>
+			${4}
+		</body>
+	</html>
+snippet	skel_basic
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0
+	Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+	<html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<title>${1:Page Title}</title>
+			<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		</head>
+
+		<body>
+			${2}
+		</body>
+	</html>
+snippet	 table
+prev_word   '^'
+	<style type="text/css">
+		table {
+			width: 530px;
+			border: 1px #E3E3E3 solid;
+			border-spacing: 0;
+			background: #D5F0F0 url(img/bg_02.gif) repeat-x 0 100%;
+		}
+		table th {
+			padding: 5px;
+			border: #98DCDC solid;
+			border-width: 0 0 1px 1px;
+			background: #73CECE url(img/bg_02_header.gif) repeat-x 0 100%;
+			color: #FFFFFF;
+			font-weight: bold;
+			line-height: 120%;
+			text-align: center;
+		}
+		table td {
+			padding: 5px;
+			border-style: solid;
+			border-width: 1px;
+			border-color: #FFFFFF #8ED9D9 #8ED9D9 #FFFFFF;
+			color: #1A4444;
+			text-align: center;
+		}
+	</style>
+	<!-- columns : ${1:columns_count}, rows : ${2:rows_count} -->
+	table>(caption)+(colgroup>col[style=""]*$1)+(thead>tr>th*$1)+(tbody>(tr>td*$1)*$2)${3:}
+snippet	 skel_twitter_bootstrap
+alias	   skel_twitterbootstrap twitter_boostrap
+alias	   skel_bs skelbs
+options	 head
+prev_word   '^'
+	<!DOCTYPE html>
+	<html lang="ja">
+		<head>
+			<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			<meta name="viewport" content="width=device-width, user-scalable=0, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+			<!-- Bootstrap -->
+			<!-- Latest compiled and minified CSS -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+			<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+			<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+			<!--[if lt IE 9]>
+				<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+				<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+			<![endif]-->
+			<meta name="keywords" content="${1:}" />
+			<meta name="description" content="${2:}" />
+			<title>${3:#:page_name} - ${4:#:site_name}</title>
+		</head>
+
+		<body>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+				<a class="navbar-brand" href="/">$4</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+							<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Link</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Dropdown
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">Action</a>
+							<a class="dropdown-item" href="#">Another action</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">Something else here</a>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link disabled" href="#">Disabled</a>
+						</li>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="container-fluid">
+				<h2>$3</h2>
+
+				${6}
+				bs_form
+
+			</div>
+
+			<footer class="page-footer font-small fixed-bottom bg-dark text-light">
+				<div class="footer-copyright text-center py-3">
+				<p>Copyright © 2019-2019 <a href="https://genzouw.com">genzouw</a> All Rights Reserved.</p>
+				<p>( twitter:<a href="https://twitter.com/genzouw">@genzouw</a> , facebook:<a href="https://www.facebook.com/genzouw">genzouw</a>, mailto:<a href="mailto:genzouw@gmail.com">genzouw@gmail.com</a> )</p>
+				</div>
+			</footer>
+
+			<!-- Latest compiled and minified JavaScript -->
+			<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+			<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		</body>
+	</html>
+snippet	 bs_form
+alias	   bsform
+options	 word
+prev_word   '^'
+	<form action="${1:#:uri}" class="form-horizontal" role="form">
+		<div class="form-group">
+			<label for="${2:#:column_name}" class="control-label">${3:column_label}</label>
+			<input type="text" id="$2" name="$2" placeholder="${4:$3}" class="form-control" />
+			<span class="help-block">message...</span>${5:}
+		</div>
+	</form>
+snippet	 bs_control_group
+alias	   bsformgroup bs_form_group bscontrolgroup
+options	 word
+prev_word   '^'
+	<div class="form-group">
+		<label for="${1:column_name}" class="control-label">${2:column_label}</label>
+		<input type="text" id="$1" name="$1" placeholder="${3:2}" class="form-control" />
+		<span class="help-block hide">message...</span>
+	</div>
+snippet	 skel_jm
+alias	   skeljm skel_jquery_mobile jquery_mobile
+options	 head
+prev_word   '^'
+	<!DOCTYPE html>
+	<html lang="ja">
+		<head>
+			<meta charset="utf-8" />
+			<meta name="keywords" content="${2:keywords}" />
+			<meta name="description" content="${3:description}" />
+			<meta name="apple-mobile-web-app-capable" content="yes">
+			<title>${1:title}</title>
+			<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" />
+			<script src="http://code.jquery.com/jquery-2.0.1.min.js"></script>
+			<script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
+			<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+			<meta name="viewport" content="width=device-width, user-scalable=0, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		</head>
+		<body>
+			<div data-role="page" id="${4:pageId}" data-fullscreen="true" data-add-back-btn="true" data-back-btn-text="戻る" data-back-btn-theme="${5:a/b/c/d/e}">
+				<div data-role="header">
+					<h1>$1</h1>
+					<a href="settings.html" data-icon="gear" data-prefetch="true" data-dom-cache="true"  data-transition="pop" class="ui-btn-right">設定</a>
+					<div data-role="navbar">
+						<ul>
+							<li><a data-icon="home" href="index.html">ホーム</a></li>
+						</ul>
+					</div>
+				</div>
+				<div data-role="content">
+					${6:}
+				</div>
+				<div data-role="footer">
+					<h4>@2013 genzouw@gmail.com</h4>
+				</div>
+			</div>
+		</body>
+	</html>
+snippet     jm_link
+alias       jml jma
+options     word
+prev_word   '^'
+	<a href="${1:#pageId}" data-prefetch="true" data-dom-cache="true" ${2: data-transition="slide"}>${3:}</a>
+snippet     jm_dialog
+alias       jmd
+options     word
+prev_word   '^'
+	<a href="${1:uri}" data-rel="dialog" data-prefetch="true" data-dom-cache="true" data-transition="pop">${2:}</a>
+snippet     jm_grid
+alias       jmgrid
+options     head
+prev_word   '^'
+	<div class="ui-grid-${1:a/b/c/d/e}">
+		${2:}<div class="ui-block-a"></div>
+		<div class="ui-block-b"></div>
+		<div class="ui-block-c"></div>
+		<div class="ui-block-d"></div>
+		<div class="ui-block-e"></div>
+	</div>
+snippet		bs_row
+alias		bsrow
+options		word
+	<div class="row justify-content-center">
+		<div class="col-auto">
+			${2:}
+		</div>
+	</div>
+snippet		bs_span
+alias		bsspan
+options		word
+	<div class="col-auto">
+		${2:}
+	</div>
+snippet		bs_btn_group
+alias		bsbtngroup
+options		word
+	<div class="btn-group">
+		<button id="${2:}" class="btn btn-primary">${1:}</button>
+	</div>
+snippet		bs_btn
+alias		bsbtn
+options		word
+	<div class="form-group">
+		<button id="${2:}" class="btn btn-primary">${1:}</button>
+		<!--
+		<button id="$2" class="btn btn-primary /btn-lg/btn-sm/btn-xs/">$1</button>
+		-->
+	</div>
+snippet		bs_table
+alias		bstable
+options		word
+	<table class="table table-striped table-bordered table-condensed">
+		(colgroup>col*${1:}),(thead>tr>th*$1),(tbody>tr>td*$1)${2:}
+	</table>
+snippet		skel_qunit
+alias		skelqunit qunit
+options		head
+prev_word	'^'
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="utf-8">
+			<title>${1:title}</title>
+			<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.12.0.css">
+			<script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.12.0.js"></script>
+			<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+			<script type="text/javascript" src="${2:testee}.js"></script>
+			<script type="text/javascript" src="$2-test.js"></script>
+		</head>
+		<body>
+			<!-- テスト結果表示領域 -->
+			<div id="qunit"></div>
+		</body>
+	</html>
+snippet		bs_pagination
+alias		bspagination
+options		head
+prev_word	'^'
+	<ul class="pagination">
+		<li class="previous disabled"><a>&laquo;</a></li>
+			li.active*${1:count}>a{$}${2:}
+		<li class="next"><a>&raquo;</a></li>
+	</ul>
+snippet		livereload
+options		head
+prev_word	'^'
+	<script>
+	$(document).ready(function() {
+		document.write(
+			'<script src="http://' +
+			(location.host || 'localhost').split(':')[0] +
+			':35729/livereload.js?snipver=1"></' +
+			'script>'
+		)
+	});
+	</script>
+snippet		skel_remark
+alias		skelremark
+options		head
+prev_word	'^'
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<title>Title</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<style type="text/css">
+		@import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+		@import url(http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+		@import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+		body { font-family: 'Droid Serif'; }
+		h1, h2, h3 {
+			font-family: 'Yanone Kaffeesatz';
+			font-weight: normal;
+		}
+		.remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+		</style>
+	</head>
+	<body>
+		<textarea id="source">
+
+	class: center, middle
+
+# Title
+
+	---
+
+# Agenda
+
+	1. Introduction
+	2. Deep-dive
+	3. ...
+
+	---
+
+# Introduction
+
+		</textarea>
+		<script src="http://gnab.github.io/remark/downloads/remark-latest.min.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+		var slideshow = remark.create();
+		</script>
+	</body>
+	</html>
+snippet		bs_dropdown
+alias		bsdropdown
+options		head
+prev_word	'^'
+	<div class="btn-group">
+		<button id="${1:id}" class="btn btn-primary">Action</button>
+		<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+		<ul class="dropdown-menu">
+			<li><a href="">Action1</a></li>
+			<li><a href="">Action2</a></li>
+			<li class="divider"></li>
+			<li><a href="">Action3</a></li>
+		</ul>
+	</div>
+
+snippet		bs_breakcrumb
+alias		bsbreakcrumb pankuzu
+options		head
+prev_word	'^'
+	<ul class="breadcrumb">
+		<li><a href="">HOME</a></li>
+		<li><a href="">Users</a></li>
+		<li><a href="" class="active">Top</a></li>
+	</ul>
+snippet		bs_alert
+alias		bsalert
+options		head
+prev_word	'^'
+	<div class="alert alert-info">
+		<button class="close" data-dismiss="alert">&times;</button>
+		お知らせですよー
+	</div>
+snippet		bs_label
+alias		bslabel
+options		head
+prev_word	'^'
+	<p>Product A <span class="label label-primary">New!</span></p>
+snippet		bs_panel
+alias		bspanel
+options		head
+prev_word	'^'
+	<div class="panel panel-primary">
+		<div class="panel-heading">タイトル</div>
+		<div class="panel-body">本文</div>
+	</div>
+snippet		bs_progress
+alias		bsprogress
+options		head
+prev_word	'^'
+	<div class="progress progress-striped active">
+		<div class="progress-bar progress-bar-info" style="width:40%"></div>
+		<div class="progress-bar progress-bar-primary" style="width:20%"></div>
+		<div class="progress-bar progress-bar-warning" style="width:10%"></div>
+	</div>
+snippet		bs_modal
+alias		bsmodal
+options		head
+prev_word	'^'
+	<a class="btn btn-primary" href="#myModal" data-toggle="modal">Show me!</a>
+
+	<div id="myModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">My Modal</h4>
+				</div>
+				<div class="modal-body">
+					こんにちわ
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+snippet		bs_tab
+alias		bstab
+options		head
+prev_word	'^'
+	<ul class="nav nav-tabs"  sytle="margin-bottom:1em;">
+		<li><a href="#home" data-toggle="tab">Home</a></li>
+		<li><a href="#about" data-toggle="tab">About</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="home" class="tab-pane active">ホームだよ</div>
+		<div id="about" class="tab-pane">アバウトだよ</div>
+	</div>
+snippet		bs_tooltip
+alias		bstooltip
+options		head
+prev_word	'^'
+	<p><a href="#" data-toggle="tooltip" title="説明">this</a> and <a href="javascript:void(0);" data-toggle="popover" title="説明ですよ" data-content="更に説明">that</a>.</p>
+	<script>
+	$(function() {
+		$("[data-toggle=tooltip]").tooltip({
+			"placement": "left"
+		});
+		$("[data-toggle=popover]").popover({
+			"placement": "left"
+		});
+	});
+	</script>
+snippet		bs_carousel
+alias		bscarousel
+options		head
+prev_word	'^'
+	<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+		<!-- Indicators -->
+		<ol class="carousel-indicators">
+			<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+			<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+			<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+			<li data-target="#carousel-example-generic" data-slide-to="3"></li>
+		</ol>
+
+		<!-- Wrapper for slides -->
+		<div class="carousel-inner">
+			<div class="item active">
+				<img src="img/001.jpg" alt="photo1">
+				<div class="carousel-caption">
+					写真1
+				</div>
+			</div>
+			<div class="item">
+				<img src="img/002.jpg" alt="photo2">
+				<div class="carousel-caption">
+					写真2
+				</div>
+			</div>
+			<div class="item">
+				<img src="img/003.jpg" alt="photo3">
+				<div class="carousel-caption">
+					写真3
+				</div>
+			</div>
+			<div class="item">
+				<img src="img/004.jpg" alt="photo4">
+				<div class="carousel-caption">
+					写真4
+				</div>
+			</div>
+		</div>
+
+		<!-- Controls -->
+		<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+		<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+	</div>
+snippet		bs_glyphicon
+alias		bsicon bsglyphicon
+options		word
+	<span class="glyphicon glyphicon-${0:}"></span>
+snippet		auto-reloader
+alias		AutoReloader autoreloader
+options		head
+prev_word	'^'
+	<script src="//s3-ap-northeast-1.amazonaws.com/daito-libs/tanabe/AutoReloader-js/auto-reloader.js"></script>
+	<script>
+	AutoReloader.add(
+		'index.html'
+		${0:}
+	);
+	</script>
+snippet		skel_reveal
+alias		skelreveal
+options		head
+prev_word	'^'
+	<!doctype html>
+	<html lang="ja">
+		<head>
+			<meta charset="utf-8">
+			<title>${1:title}</title>
+			<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+			<meta name="author" content="Hakim El Hattab">
+			<meta name="apple-mobile-web-app-capable" content="yes">
+			<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+			<link rel="stylesheet" href="reveal.js/css/reveal.css">
+			<link rel="stylesheet" href="reveal.js/css/theme/white.css" id="theme">
+			<!-- Theme used for syntax highlighting of code -->
+			<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+			<!-- Printing and PDF exports -->
+			<script>
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			</script>
+			<!--[if lt IE 9]>
+			<script src="reveal.js/lib/js/html5shiv.js"></script>
+			<![endif]-->
+		</head>
+		<body>
+			<div class="reveal">
+				<div class="slides">
+					<section data-markdown=""
+						data-separator="^\n---$"
+						data-separator-vertical="^\n>>>$">
+	<script type="text/template">
+	<!-- ========================== -->
+	${0:}
+	<!-- ========================== -->
+	</script>
+					</section>
+				</div>
+			</div>
+			<script src="reveal.js/lib/js/head.min.js"></script>
+			<script src="reveal.js/js/reveal.js"></script>
+			<script>
+				// More info https://github.com/hakimel/reveal.js#configuration
+				Reveal.initialize({
+					controls: true,
+					progress: true,
+					history: true,
+					center: true,
+					transition: 'slide', // none/fade/slide/convex/concave/zoom
+					// More info https://github.com/hakimel/reveal.js#dependencies
+					dependencies: [
+						{ src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+						{ src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+						{ src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+						{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+						{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+						{ src: 'reveal.js/plugin/notes/notes.js', async: true }
+					]
+				});
+			</script>
+		</body>
+	</html>
+snippet		router-link
+alias		routerlink
+options		word
+	<router-link to="${1:url}">${0:TARGET}</router-link>
+snippet		router-view
+alias		routerview
+options		word
+    <router-view></router-view>

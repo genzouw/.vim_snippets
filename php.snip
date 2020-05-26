@@ -1,0 +1,1196 @@
+include html.snip
+include php.unit.snip
+
+snippet		use
+options		head
+prev_word	'^'
+	use ${0:};
+snippet	doc_i
+	/**
+	 * $1
+	 * @package ${2:default}
+	 * @author ${3:`g:snips_author`}
+	 **/
+	interface ${1:someClass}
+	{
+		${4}
+	} // END interface $1"
+snippet	doc_f_see
+alias	docfsee docmsee
+	/**
+	 * @see ${1:parent_class}::${2:parent_method}()
+	 **/
+snippet	doc_h
+	/**
+	 * ${1}
+	 *
+	 * @author ${2:`g:snips_author`}
+	 * @version ${3:$Id$}
+	 * @copyright ${4:$2}, `strftime('%d %B, %Y')`
+	 * @package ${5:default}
+	 **/
+snippet	doc_cp
+	/**
+	 * ${1:undocumented class}
+	 *
+	 * @package ${2:default}
+	 * @author ${3:`g:snips_author`}
+	 **/${4}
+snippet	case
+	case '${1:value}':
+		${2:}
+		break;${3}
+snippet	[
+options	word
+	[
+		${0:}
+	${1:}
+snippet	array
+options	word
+	array(
+		${0:}
+	)
+snippet	request
+	$_REQUEST['${1}']${2}
+snippet	elseif
+	else if (${1:/* condition */}) {
+		${2:}
+	}
+snippet	globals
+	$GLOBALS['${1:variable}']${2: = }${3:something}${4:;}${5}
+snippet	req
+	require '${1:file}';${2}
+snippet	ife
+	if (${1:/* condition */}) {
+		${2:}
+	} else {
+
+	}
+snippet	closure
+alias	clo
+options word
+	function (${1}) {
+		return ${0:}
+	}
+snippet	function
+alias	fun method met
+options word
+	function ${2:FunctionName}(${3}) {
+		${4:}
+	}
+snippet	inc1
+	include_once '${1:file}';${2}
+snippet	switch
+	switch ($${1:variable}) {
+		case '${2:value}':
+			${3:}
+			break;
+		${5}
+		default:
+			${4:}
+			break;
+	}
+snippet	try
+	try {
+		${1:}
+	} catch (${2:Exception} $e) {
+		${3:}
+	}
+
+snippet	wh
+	while (${1:/* condition */}) {
+		${2:}
+	}
+snippet	class
+	class `substitute(expand('%:t'), '.php', '', 'g')`
+	{
+		/**
+		 * コンストラクタ
+		 */
+		public function __construct(${2:#:argument}) {
+
+		}
+	}
+# snippet	php
+# options	word
+	# <?php
+	# ${1}
+snippet	do
+	do {
+		${2: }
+	} while (${1:/* condition */});"
+snippet	defd
+	${1}defined('${2}')${3}
+snippet	define
+alias	def
+	define('${1}', ${2});${3}
+snippet	inc
+	include '${1:file}';${0}
+snippet	req1
+	require_once '${1:file}';${0}
+snippet	log
+	error_log(var_export(${1}, true));${2}
+snippet	if
+	if (${1:/* condition */}) {
+		${2:}
+	}
+snippet	foreach
+	foreach ($${1:list} as $${2:row}) {
+		${3:}
+	}
+snippet	else
+	else {
+		${1:}
+	}
+snippet	foreachk
+	foreach ($${1:map} as $${2:key} => $${3:value}) {
+		${4:}
+	}
+snippet	echo
+alias ec println
+	echo "${1:}", PHP_EOL;
+snippet	get
+options word
+	$_GET['${1}']${2}
+snippet	server
+options word
+	$_SERVER['${1}']${2}
+snippet	session
+options word
+	$_SESSION['${1}']${2}
+snippet	post
+options word
+	$_POST['${1}']${2}
+snippet	for
+	for ($${1:i} = 0, $size = ${2:count}; $$1 < $size; $${3:$1++}) {
+		${4:}
+	}
+snippet	 pr
+	print htmlspecialchars(${1:}, ENT_QUOTES, 'UTF-8');
+snippet	 var
+snippet	 v
+options		head
+prev_word   '^'
+	$${1:#:var} = ${0:}
+snippet	 this
+alias	 $this
+options word
+	$this->${1:}
+snippet	 set
+	$this->set('${1:key}', ${2:value});
+snippet	 sanitize
+prev_word   '^'
+	App::uses('Sanitize', 'Utility');
+snippet	 data
+	Sanitize::stripAll($this->data['${1:key}'])${2:}
+snippet	 pub
+prev_word   '^'
+	public $${1:var} = ${2:null};${3:}
+snippet	 table
+prev_word   '^'
+	table>(caption)+(colgroup>col[style=""]*${1:3})+(thead>tr>th*$1)+(tbody>tr>td*$1)${2:}
+
+snippet	 mysql_connect
+abbr		mysql_connect
+prev_word   '^'
+	$link = mysql_connect('localhost', 'user', 'pass');
+	if (!$link) {
+		die('接続失敗です。'.mysql_error());
+	}
+
+	$db_selected = mysql_select_db('database_name', $link);
+	if (!$db_selected) {
+		die('データベース選択失敗です。'.mysql_error());
+	}
+
+	mysql_set_charset('utf8');
+
+	$result = mysql_query('SELECT * FROM xxxx');
+	if (!$result) {
+		die('クエリーが失敗しました。'.mysql_error());
+	}
+
+
+	while ($row = mysql_fetch_assoc($result)) {
+		print($row['id']);
+		print($row['name']);
+	}
+
+	mysql_close($link);
+snippet     insert_pre
+prev_word   '^'
+	$table_fields = array('${2:table_field}');
+	$table_values = array('${3:table_value}');
+
+	$sth = $db->extended->autoPrepare('${1:table_name}', $table_fields, MDB2_AUTOQUERY_INSERT);
+	if (PEAR::isError($sth))
+		die($sth->getMessage());
+
+	$res =& $sth->execute($table_values);
+	if (PEAR::isError($res))
+		die($res->getMessage());
+snippet     mdb2ins
+prev_word   '^'
+
+	$count = $db->extended->autoExecute(
+		'${1:table_name}',
+		array(
+		   '${2:table_field}' => ${3:table_value},
+			${4:}
+		),
+		MDB2_AUTOQUERY_INSERT
+	);
+	PEAR::isError($count) && die($count->getMessage());
+
+	$id = $db->lastInsertID('$1', '${5:id}');
+snippet     mdb2
+prev_word   '^'
+	require_once 'MDB2.php';
+
+	$database = '${1:database}';
+	$host	  = '${2:localhost}';
+	$user_name = '${3:$1}';
+	$password = '${4:$3}';
+	$charset = 'utf8';
+
+	$db = MDB2::connect("mysql://$user_name:$password@$host/$database?charset={$charset}");
+	MDB2::isError($db) && die($db->getMessage());
+
+	$db->loadModule('Extended');
+
+	${5:}
+snippet		form
+prev_word	'^'
+	<form method='POST' action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">>
+		${1:}
+	</form>
+snippet     mdb2sel
+prev_word   '^'
+
+	// $db->setFetchMode(MDB2_FETCHMODE_OBJECT);
+	$res = $db->extended->autoExecute(
+		'${1:table_name}', null, MDB2_AUTOQUERY_SELECT,
+		'${2:id} = '.$db->quote( $${3:$2}, '${4:integer}')
+	);
+	PEAR::isError($res) && die($res->getMessage());
+
+	while ($row =& $res->fetchRow()) {
+		${5:}
+	}
+snippet     mdb2upd
+options     head
+prev_word   '^'
+	$res = $db->extended->autoExecute(
+		'${1:table_name}',
+		array(
+		   '${2:table_field}' => ${3:table_value},
+			${4:}
+		),
+		MDB2_AUTOQUERY_UPDATE,
+		'${5:field} = '.$db->quote( $${6:value} )
+	);
+	PEAR::isError($res) && die($res->getMessage());
+snippet     ifempty
+abbr        checkempty
+prev_word   '^'
+	if (empty($${1:field_name})) {
+		${2:}
+	}
+snippet		cake_model
+alias		cmodel
+options		head
+prev_word	'^'
+	class ${1:name} extends AppModel {
+		${2:}
+	}
+snippet		cake_controller
+alias		ccontroller
+options		head
+prev_word	'^'
+	class ${1:name}Controller extends AppController {
+		public $helpers = array('Html', 'Form');
+
+		${2:#:// TODO }public $scaffold;
+
+		public function index() {
+			$this->set('title_for_layout', '${4:title}');
+			$this->set('${3:name}s', this->$1->find('all'));
+		}
+		${5:}
+	}
+snippet		=>
+alias		-. :
+options		word
+	'${1:name}' => ${2:value},${3:}
+snippet		echo_h
+alias		echoh
+options		word
+	echo h(${1:});
+snippet		cake_act
+alias		cact
+options		head
+prev_word	'^'
+	public function ${1:name} (${2:$id = null}) {
+		$this->set('title_for_layout', '${3:title}');
+		${4:}
+	}
+snippet		cake_html_link
+alias		clink
+options		word
+	echo $this->Html->link( ${1:title}, ${2:array()}, ${3:array()});
+snippet		cake_request
+alias		crequest creq
+options		word
+	$this->request->${1:}
+snippet		cake_session
+alias		csession csess cses
+options		word
+	$this->Session->${1:}
+snippet		cake_form
+alias		cform
+options		word
+	<?php echo $this->Form->create(
+		'${1:#:form_name}',
+		array(
+			// 'enctype' => 'multipart/form-data',
+			'action' => 'export',
+			'inputDefaults' => array(
+				'div' => false,
+				'label' => false,
+				'error' => false,
+			)
+		)
+	); ?>
+	${3:}
+	<?php echo $this->Form->end('${2:#:Save}'); ?>
+snippet     cake_input
+alias       cinput
+options     word
+	<?php echo $this->Form->input(
+		'${1:#:control_name}',
+		array(
+			'type' => '${2:type}',
+		)
+	); ?>
+	${2:}
+snippet     cake_rule
+alias       crule
+options     word
+	'${1:notEmpty/minLength/maxLength/alphaNumeric/numeric}' => array(
+		'rule' => ['$1'${0:}],
+		'message' => 'error.$1',
+	),
+snippet     cake_valid
+alias       cvalid
+options     word
+	'${1:#:field_name}' => array(
+		cake_rule${1:}
+	),
+snippet     doc_pj
+alias       docpj
+options     head
+prev_word   '^'
+	/**
+	 * ${1:ClassName} ${2:Class}.
+	 *
+	 * @package    ${3:package}
+	 * @author     ${4:T.Wakabayashi}
+	 * @copyright  (c) 2013 ${5:} inc.
+	 * @version    SVN: $Id: $1.class.php
+	 */
+snippet     array_map
+alias       collect arraymap
+options     word
+	array_map(function ( $it ) {
+		return ${2:};
+	}, $${1:list})${4:}
+snippet     array_filter
+alias       findall arrayfilter
+options     word
+	array_filter($${1:list}, function ( $it ) {
+		return ${2:};
+	});
+snippet     array_filter_map
+alias       findall arrayfiltermap
+options     word
+	array_filter($${1:map}, function ( $value, $key ) {
+		return ${2:};
+	}, ARRAY_FILTER_USE_BOTH);
+# lambda with closure
+snippet lambda
+	${1:static }function (${2:args}) use (${3:&$x, $y /*put vars in scope (closure) */}) {
+		${4}
+	};
+# pre_dump();
+snippet pd
+	echo '<pre>'; var_dump(${1}); echo '</pre>';
+# pre_dump(); die();
+snippet pdd
+	echo '<pre>'; var_dump(${1}); echo '</pre>'; die();
+snippet vd
+	var_dump(${1});
+snippet vdd
+	var_dump(${1}); die(${2:});
+snippet     phpinfo
+	<?php echo phpinfo(); ?>
+snippet		whoami
+	<?php echo `whoami`; ?>
+snippet     mb_convert_encoding
+alias       mbconvertencoding convertencoding
+options     word
+	mb_convert_encoding(${1:text}, '${3:#:dest}', '${2:#:src}');
+snippet     mb_str_replace
+alias       mbstrreplace strreplace
+options     word
+	mb_str_replace('${2:#:src}', '${3:#:dest}', ${1:text});
+
+snippet     mb_ereg_replace
+alias       mberegreplace eregreplace
+options     word
+	mb_ereg_replace ('${2:#:src}' , '${2:#:dest}', ${1:text}${4:, 'ixmpe'});
+snippet		json
+alias		php_json
+options		word
+	header('Content-Type: application/json;charset=UTF-8');
+	header("Access-Control-Allow-Origin: *");
+
+	$json = array(
+		'errors' => array(
+			array(
+				'message' => 'not initialized.',
+			)
+		)
+	);
+
+	${1:}
+
+	echo json_encode($json);
+snippet     array_key_exists
+alias       array.key_exists
+options     word
+	array_key_exists( ${1:key}, ${2:array} )
+snippet     array_merge
+alias       arraymerge merge
+options     head
+prev_word   '^'
+	${1:main} = array_merge( $1, ${2:sub} );
+snippet     isset
+options     word
+	isset(${1:})${2:}
+snippet     explode
+alias		split
+options     word
+	explode('${1:#:delimiter}', ${2:text})${3:}
+snippet     implode
+options     word
+	implode("${2:\n}", ${1:#:$list})
+snippet     redirect
+options     head
+prev_word   '^'
+	header("Location: ${1:url}");
+	exit;
+snippet     trim
+options     word
+	trim(${1:#:text}${2:#:, 'charlist'})${3:}
+snippet     mb_strlen
+alias       strlen mbstrlen
+options     word
+	mb_strlen(${1:$text}, ${2:'utf-8'})${3:}
+snippet		preg_grep
+alias		preggrep grep
+options		word
+	preg_grep( '/${1:pattern}/u', ${2:list} )
+snippet		kitayo
+alias		kita
+options		word
+	echo 'kitayo${1:}'; echo "\n";${2:}
+snippet		in_array
+alias		inarray
+options		word
+	in_array(${1:value}, ${2:list})
+snippet		session_start
+alias		sessionstart
+options		head
+prev_word	'^'
+	// セッション設定
+	$lifeTime = ${1:days} * 60 * 60;
+	session_save_path("/tmp");
+	ini_set('session.gc_maxlifetime', $lifeTime);
+	ini_set('session.gc_probability', 1);
+	ini_set('session.gc_divisor', 100);
+	session_set_cookie_params($lifeTime);
+	session_start();
+snippet		preg_replace
+alias		pregreplace
+options		word
+	preg_replace('/${1:}/su', '${2:}', ${3:text});
+snippet		file_get_contents
+alias		filegetcontents
+options		word
+	// $opts = array(
+	// 	'http'=>array(
+	// 		'method'=>"GET",
+	// 		'proxy' => 'tcp://proxy_hostname:proxy_port',
+	// 		'request_fulluri' => true,
+	// 		'header'=>"Accept-language: en\r\n",
+	// 	)
+	// );
+	//
+	// $context = stream_context_create($opts);
+	//
+	// $content = file_get_contents('$1', false, $context);
+
+	$content = file_get_contents('${1:http://hostname/}');
+snippet		xhprof
+options		head
+prev_word	'^'
+	// xhprof start
+	xhprof_enable();
+
+	// main process
+	${3:}
+
+	// xhprof end
+	$xhprof_data = xhprof_disable();
+	$xhprof_root = '${1:$HOME/.composer/vendor/facebook/xhprof}';
+	include_once $xhprof_root . "/xhprof_lib/utils/xhprof_lib.php";
+	include_once $xhprof_root . "/xhprof_lib/utils/xhprof_runs.php";
+	$xhprof_src_name = '';
+	$run_id = (new XHProfRuns_Default())->save_run($xhprof_data, $xhprof_src_name);
+	echo "<a href='${2:xhprof_root_url}/xhprof_html/index.php?run={$run_id}&source={$xhprof_src_name}' style='font-size:15px;'>xhprof集計結果を確認する</a>";
+snippet		write
+alias		filewrite fwrite
+options		head
+prev_word	'^'
+	$writer = fopen("${1:filepath}", "w");
+	fwrite($writer, "${2:content}");
+	fclose($writer);
+snippet		date_format
+alias		dateformat
+options		word
+	format('Y-m-d H:i:s')
+snippet ->format
+options		word
+	->format('Y-m-d H:i:s')
+snippet		usort
+alias		sort
+options		word
+	usort( ${1:array}, function( ${2:x}, ${3:y} ) {
+		${4:}
+	});
+snippet throw
+	throw new ${1}Exception("${2:#:Error Processing Request}"${3:});
+	${0}
+snippet		to_wide
+alias		towide wide
+options		word
+	mb_convert_kana(${1:}, 'ASKV', 'UTF-8');
+snippet		strtotime
+alias		totime
+options		word
+prev_word	'^'
+	strtotime(${1:})
+snippet		strftime
+alias		fromtime
+options		word
+prev_word	'^'
+	strftime('${1:%Y%m%d %H:%M}', ${2:time()})
+snippet		preg_match
+alias		pregmatch
+options		word
+	preg_match ( '/\A${1:}\z/u' , ${2:string} )
+snippet		404
+alias		notfount
+options		head
+prev_word	'^'
+	header("HTTP/1.0 404 Not Found");
+	die();
+snippet		500
+alias		internalservererror
+options		head
+prev_word	'^'
+	header("HTTP/1.0 500 Internal Server Error");
+	die();
+snippet		private
+options		head
+prev_word	'^'
+	private $${1:field_name} = ${2:null};
+	${3:}
+snippet		property
+alias		prop props field
+options		head
+prev_word	'^'
+	public $${1:field_name} = ${2:null};
+	${3:}
+snippet		bootstrap
+options		head
+prev_word	'^'
+	mb_internal_encoding('UTF-8');
+
+	set_include_path(
+		realpath(__DIR__ . '/lib') . PATH_SEPARATOR .
+		get_include_path()
+	);
+
+	spl_autoload_register(function($class) {
+		$srcRoot = realpath(__DIR__ . '/lib');
+
+		if (is_int(strpos($class, '\\')) && is_file($path = $srcRoot . '/' . str_replace('\\', '/', $class) . '.php')) {
+			require $path;
+		}
+	});
+snippet		PHP_EOL
+alias		php_eol eol
+options		word
+	PHP_EOL
+snippet		cakefind
+alias		find
+options		word
+	find('${1:first/all/count/list}', array(${2:}));
+snippet		stdin
+options		word
+	file_get_contents('php://stdin')
+snippet		$this->html
+options		word
+	$this->Html->
+snippet		is_int
+alias		isint
+options		word
+	is_int(${1:})
+snippet		is_float
+alias		isfloat
+options		word
+	is_float(${1:})
+snippet		is_string
+alias		isstring
+options		word
+	is_string(${1:})
+snippet		is_bool
+alias		isbool
+options		word
+	is_bool(${1:})
+snippet		is_array
+alias		isarray
+options		word
+	is_array(${1:})
+snippet		is_null
+alias		isnull
+options		word
+	is_null(${1:})
+snippet		is_object
+alias		isobject
+options		word
+	is_object(${1:})
+snippet		is_resource
+alias		isresource
+options		word
+	is_resource(${1:})
+snippet		pdo
+options		head
+prev_word   '^'
+	$dsn = 'mysql:dbname=${1:dbname};host=${2:host};port=3306';
+	$user = '${3:username}';
+	$password = '${4:password}';
+
+	try {
+		$pdo = new PDO($dsn, $user, $password);
+	} catch (PDOException $e) {
+		print('Error:'.$e->getMessage());
+		die();
+	}
+
+	$stmt = $pdo->prepare('SELECT * FROM contents where number1 = :number1 and number2 = :number2');
+	$stmt->bindValue(':number1', 1, PDO::PARAM_INT);
+	$stmt->bindValue(':number2', 5, PDO::PARAM_STR);
+	if (!$stmt->execute()) {
+		$info = $stmt->errorInfo();
+		exit($info[2]);
+	}
+
+	while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+		echo '<p>' . $data['contentsid'] . ':' . $data['contentsname'] . "</p>\n";
+	}
+snippet		debug
+alias		deb
+options		head
+prev_word   '^'
+	debug(${1:});
+snippet		unset
+options		head
+prev_word	'^'
+	unset(${1:});
+snippet		dbug
+options		word
+	// ------------------------------
+	require_once('dBug/dBug.php');
+	// App::import('dBug', 'Vendor/dBug');
+	new dBug($${1:variable});
+	// ------------------------------
+snippet		copy
+	if (!copy(${1:srcfile}, ${2:destfile})) ${3:}
+snippet		gzopen
+alias		gzip_open
+options		head
+prev_word	'^'
+	try {
+		$fp = gzopen('./.bash_history.gz', 'r');
+		while ($line = gzgets($fp)) {
+			// TODO
+		}
+
+	// 	throw new Exception();
+	// } catch (Exception $e) {
+	} finally {
+		!is_null($fp) && gzclose($fp);
+	}
+snippet		mail_address
+alias		mailaddress address
+options		word
+	${1:name} <${2:$1}@${3:domain}>
+snippet		syslog
+options		head
+prev_word	'^'
+	openlog('${1:app_name}' , LOG_NDELAY, LOG_LOCAL3);
+
+	syslog(LOG_ERR, '${2:message}');
+
+	closelog();
+snippet		getenv
+alias		env home
+options		word
+	getenv('${1:HOME}')${0:}
+snippet		scandir
+alias		files
+options		word
+	scandir(${1:$dirPath})
+snippet		file_put_contents
+alias		fileputcontents fput
+options		word
+	file_put_contents ( ${1:filename} , ${2:data} );
+snippet		json_decode
+alias		jsondecode
+options		word
+	$json = (array) json_decode($jsonText);
+snippet		constructor
+options		head
+prev_word	'^'
+	function __construct(${1:argument}) {
+
+	}
+snippet		mb_substr
+alias		substring substr mbsubstr
+options		word
+	mb_substr( ${1:text}, ${2:start}, ${3:length} )
+snippet		get_class
+alias		getclass
+options		word
+	get_class(${1:$this})
+snippet		.
+options		word
+	->
+snippet		sys_get_temp_dir
+alias		sysgettempdir tempdir
+options		word
+	$tempDir = sys_get_temp_dir();
+snippet		tempfile
+options		head
+prev_word	'^'
+	$tempDir = sys_get_temp_dir();
+	$tempFile = tempnam($tempDir, '');
+snippet		exec
+alias		shell exec
+options		head
+prev_word	'^'
+	$shell = '${1:shell}';
+	exec($shell, $output, $returnValue);
+snippet		autoload_global
+alias		autoloadglobal autoloadg gautoload
+options		head
+prev_word	'^'
+	require getenv('HOME') . '/.composer/vendor/autoload.php';
+snippet		singleton
+options		head
+prev_word	'^'
+	private static $instance = null;
+
+	public static function getInstance() {
+		if (is_null(self::$instance)) {
+			self::$instance = new ${1:ClassName}();
+		}
+
+		return self::$instance;
+	}
+snippet		$
+options		word
+	{$${0:}}
+snippet		sftp
+options		head
+prev_word	'^'
+	$filePath = '';
+
+	$host = '${1:#:host}';
+	$port = '${2:#:port}';
+
+	$user = '${3:#:user}';
+	$publicKey = '${4:#:publicKey}';
+	$privateKey = '${5:#:privateKey}';
+
+	$connection = ssh2_connect(
+		$host, $port
+	);
+
+	ssh2_auth_pubkey_file(
+		$connection,
+		$user,
+		$publicKey,
+		$privateKey
+	);
+
+	$sftp = ssh2_sftp($connection);
+	$connectionString = "ssh2.sftp://$sftp/";
+	unset($connection);
+
+	$stream = fopen($connectionString . $filePath, 'w');
+
+	fwrite($stream, "あおいうえお");
+
+	fclose($stream);
+snippet		csv
+alias		csvreader
+options		head
+prev_word	'^'
+	require_once getenv('HOME') . '/.composer/vendor/autoload.php';
+
+	use Ddeboer\DataImport\Reader\CsvReader;
+
+	$parser = new CsvReader(new \SplFileObject(${1:filePath}), ',');
+	$parser->setHeaderRowNumber(0);
+	foreach ($parser as $row) {
+		${2:#:loop}
+	}
+snippet		SplFileObject
+alias		splfileobject fileobject file
+options		head
+prev_word	'^'
+	$file = new SplFileObject(${1:file_path});
+snippet		_
+options		head
+prev_word	'^'
+	_::chain(${1:})${0:}
+snippet		->map
+alias		->map .map map
+options		word
+	->map(function(${1:type} $it) {
+		${0:}
+	})
+snippet		->each
+alias		.each
+options		word
+	->each(function($it) {
+		${1:}
+	});
+snippet		autoload
+alias		autol
+options		head
+prev_word	'^'
+	require_once __DIR__ . '${1:}/vendor/autoload.php';
+	${0:}
+snippet		use_underbar
+alias		useunderbar
+options		head
+prev_word	'^'
+	use Underbar\IteratorImpl as _;
+snippet		container
+alias		pimple
+options		head
+prev_word	'^'
+	$container['${1:name}'] = function ($c) {
+		return ${2:instance};
+	};
+snippet		__
+options		word
+	__(${1:})
+snippet		cake_select
+alias		cselect
+options		word
+	<?php echo $this->Form->select('${1:#:control_name}', ${2:options}, ${3:attributes}); ?>
+snippet		empty
+options		word
+	empty(${1:})${0:}
+snippet		parse_ini_file
+alias		parseinifile ini_file inifile inif
+options		word
+	$config = parse_ini_file(${1:file_path});
+	${0:}
+snippet		503
+options		head
+prev_word	'^'
+	header ('HTTP/1.0 503 Service Temporarily Unavailable');
+snippet		mkdir
+options		word
+	if (!mkdir(${1:path}, ${2:mode}, ${3:true})) {
+		// ERROR
+	}
+snippet		strtolower
+alias		lower tolower
+options		word
+	strtolower(${1:})
+snippet		strtoupper
+alias		upper toupper
+options		word
+	strtoupper(${1:})
+snippet		.request
+alias		->request
+options		word
+	->request(
+		'${1:GET/POST}',
+		'${2:url}'
+	)
+snippet		dir
+options		word
+	__DIR__
+snippet		simplexml_load_file
+alias		simplexmlloadfile xml
+options		word
+	simplexml_load_file(${1:})
+snippet		hash
+alias		sha256
+options		word
+	hash('sha256', ${1:value})
+snippet		cookie
+options		head
+prev_word	'^'
+	$_COOKIE['${1:key}']
+snippet		public_function
+alias		pubf
+options		head
+prev_word	'^'
+	public function ${1:FunctionName}(${2})
+	{
+
+	}
+snippet		private_function
+alias		privf prif
+options		head
+prev_word	'^'
+	private function ${1:FunctionName}(${2})
+	{
+
+	}
+snippet		mt_rand
+alias		rand mtrand
+options		word
+	mt_rand(${1:0}, ${2:end})${0}
+snippet		Ginq::from
+alias		ginq ginqfrom
+options		word
+	// use Ginq\Ginq;
+
+	Ginq::from(${1:$list})
+snippet		->groupBy
+alias		->groupby groupby
+options		word
+	->groupBy(function (${1:type} $it) {
+		${0:}
+	})
+snippet		->orderBy
+alias		->orderby orderby
+options		word
+	->orderBy(function (${1:type} $it) {
+		${0:}
+	})
+snippet		->where
+options		word
+	->where(function (${1:type} $it) {
+		${0:}
+	})
+snippet		heredocument
+alias		here
+options		word
+	<<<EOD
+		${0:}
+	EOD
+snippet		ssh
+options		head
+prev_word	'^'
+	$configuration = new Ssh\Configuration(${1:host});
+	// $configuration = new Ssh\SshConfigFileConfiguration('~/.ssh/config', $1);
+	$authentication = new Ssh\Authentication\Password('${2:user}', '${3:password}');
+	$session = new Ssh\Session($configuration, $authentication);
+	$exec = $session->getExec();
+	$exec->run('')
+snippet		csvfileobject
+alias		file csv csvfile
+options		word
+	$file = new NoRewindIterator(new SplFileObject('php://stdin'));
+	$file->setFlags(SplFileObject::READ_CSV| SplFileObject::DROP_NEW_LINE);
+	$file->setCsvControl("\t");
+	foreach ($file as $row) {
+		var_dump($row);
+	}
+snippet		Route::resource
+alias		routeresource rresource
+prev_word	'^'
+	Route::resource('${1:hoge}', '${2:Hoge}Controller');
+snippet		mail
+options		head
+prev_word	'^'
+	"mail('${1:to_address}', '${2:subject}', '${3:body}');"
+snippet		monolog
+options		head
+prev_word	'^'
+	// use \Monolog\Logger;
+	// use \Monolog\Handler\RotatingFileHandler;
+
+	$this->log = new Logger('${1:application name}');
+	$this->log->pushHandler(
+		new RotatingFileHandler('${2:file path}', 30)
+	);
+
+	// $this->log->info('any messages.');
+snippet     todo
+options     head
+prev_word   '^'
+	// TODO ${1:}
+snippet     fixme
+options     head
+prev_word   '^'
+	// FIXME ${1:}
+snippet		goutte
+options		head
+prev_word	'^'
+	// 1Goutteオブジェクトの生成
+	$client = new Client();
+
+	// 2http://www.time-j.net/から「東京の過去36時間の天気」を取得
+	$crawler = $client->request(
+		'GET',
+		'http://www.time-j.net/WorldTime/Weather/Weather36h/Asia/Tokyo'
+	);
+
+	// 3「東京の過去36時間の天気」テーブルを指定
+	$dom = $crawler->filter('table.wtable td');
+
+	$ary = array(); // 「現地時間」、「天気」の保存用
+	$time = '';     // 「現地時間」の一時保管用
+	$ix = 0;        // 現在行
+
+	// 4テーブルから1行ずつ取得する
+	$dom->each(
+		function ($node) use (&$ix, &$time, &$ary) {
+			if (($ix % 8) == 0) {
+				$time = $node->text();
+			} elseif ((($ix - 1) % 8) == 0) {
+				$ary[ $time ] = $node->text();
+			}
+			++$ix;
+		}
+	);
+
+	// 7現地時間、天気を表示する
+	foreach ($ary as $t => $w) {
+		echo $t.' '.$w.'<br />';
+	}
+snippet		Schema::create
+alias		schema::create schemacreate
+options		head
+prev_word	'^'
+	Schema::create('${1:table_name}', function(Blueprint $table) {
+		${0:}
+	});
+snippet		pathinfo
+options		head
+prev_word	'^'
+	$pathParts = pathinfo(${1:path});
+
+	// $pathParts['dirname']
+	// $pathParts['basename']
+	// $pathParts['extension']
+	// $pathParts['filename']
+snippet		parent
+alias		$super $parent super
+options		word
+	parent::${0:}
+snippet		error_log
+alias		errorlog err
+options		head
+prev_word	'^'
+	error_log(${1:message}, ${2:message_type});
+snippet     array_walk
+alias       arraywalk
+options     word
+	array_walk($${1:list}, function ( $value, $key ) {
+		${0:};
+	})
+snippet		setter
+options		head
+prev_word	'^'
+	public function set${1:PropName}($1) {
+		$this->$1 = $1;
+
+		return $this;
+	}
+snippet		getter
+options		head
+prev_word	'^'
+	public function get${1:PropName}() {
+		return $this->$1;
+	}
+snippet		setprop
+options		head
+prev_word	'^'
+	$this->${1:prop} = $$1;
+snippet		InvalidArgumentException
+alias		invalid
+options		word
+prev_word	'^'
+	throw new InvalidArgumentException('\"$${1:param_name}\" is invalid.');
+snippet		phpQuery
+alias		phpquery
+options		head
+prev_word	'^'
+	$dom = \phpQuery::newDocument(file_get_contents(
+		'http://www.mercari.com/jp/search/?keyword=%E3%82%AF%E3%83%BC%E3%83%9D%E3%83%B3'
+	));
+
+	pq($dom)->find('section.items-box')
+		->each(function ($it) {
+			echo '----- FOR DEBUG -----',' PHP_EOL;
+			echo '', pq($it)->html(), PHP_EOL;
+		})
+		->find('img')
+		->each(function ($it) {
+			echo '========================================', PHP_EOL;
+			echo '', pq($it)->attr('data-src'), PHP_EOL;
+	});
+snippet		log.debug
+alias		debug
+options		head
+prev_word	'^'
+	syslog(LOG_DEBUG, var_export(${0:}));
+snippet		str_repeat
+alias		strrepeat repeat
+options		word
+	str_repeat(${1:text}, ${2:count})
+snippet		cache
+	$expiresAt = new Carbon\Carbon();
+	$expiresAt->timestamp += 60;
+
+	$cache = new Stash\Pool(new Stash\Driver\FileSystem());
+
+	$key = 'key';
+	$item = $cache->getItem($key);
+	$item
+		->expiresAt($expiresAt)
+		->set(3600)
+		->save();
+	// var_dump($item->get());
+snippet		carbon
+alias		now sysdate
+options		word
+	$now = Carbon::now('Asia/Tokyo');
+snippet		tablerepository
+alias		repository
+options		word
+prev_word	'^'
+	$${1:}Table = TableRegistry::get('${2:TableClass}');

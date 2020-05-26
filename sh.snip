@@ -1,0 +1,410 @@
+snippet	until
+prev_word   '^'
+	until [[ ${1:condition} ]]; do
+		   ${2:}
+	done
+snippet	function
+snippet	fun
+prev_word   '^'
+	${1} () {
+		${0:}
+	}
+snippet	case
+prev_word   '^'
+	case ${1:word} in
+		${2:pattern})
+			${3};;
+	esac
+snippet	$
+options     word
+	${${1:}}${0:}
+snippet	list
+alias	li
+prev_word   '^'
+	${1:LIST}=(
+		"${$1[@]}"
+		${2:}
+	)
+snippet	var
+alias	v
+prev_word   '^'
+	declare -r ${1:var}="${2:}"
+snippet	wh
+options	word
+prev_word   '^'
+	while ${1:condition}; do
+		${2:}
+	done
+snippet	if
+prev_word   '^'
+	if [[ ${1:condition} ]]; then
+		${2:}
+	fi
+snippet	elif
+	elif [[ ${1:condition} ]]; then
+		   ${2:}
+snippet	forin
+prev_word   '^'
+	for ${1:I} in $(${2:cat}); do
+		${0}
+	done
+snippet		for
+prev_word	'^'
+	for ((i=0; i<${1:max}; i++)); do
+		${0}
+	done
+snippet	for_list
+alias forlist
+prev_word   '^'
+	for ${1:I} in ${${2:list}[@]}; do
+		${0}
+	done
+snippet		while_read
+alias		eachline whileread read
+options		word
+	while read -r ${1:L} || [[ "${$1}" ]]; do
+		${2}
+	done
+snippet     alias
+alias        ali al
+prev_word   '^'
+	alias ${1:name}="${2:value}"
+snippet     skel_sh
+alias		skel
+prev_word   '^'
+	#!/usr/bin/env bash
+	set -o errexit		# エラーが発生した場合はシェルを終了
+	set -o nounset		# 未定義の変数を利用禁止
+	set -o noclobber	# リダイレクトによる上書禁止
+
+	# ex) opts='ab:cd:'${2:}
+	opts=':${1:}'
+
+	usage() {
+		echo -n "\${0}"
+		echo "${opts}" \
+		  | grep -o '[a-z]:\?' \
+		  | sed 's/^\([a-z]\):$/ [-\1 \U\1\E]/g' \
+		  | sed 's/^\([a-z]\)$/ [-\1]/g' \
+		  | sed -z 's/\n//g'
+		exit 1
+	}
+
+	verbose=off
+
+	while getopts ":${opts}" opt ; do
+		case "${opt}" in
+			a)
+				echo $opt
+				;;
+			b)
+				echo $opt
+				echo "${OPTARG}"
+				;;
+			c)
+				echo $opt
+				;;
+			v)
+				verbose=on
+				;;
+			:|\?)
+				usage
+				;;
+		esac
+	done
+
+	shift $((OPTIND -1))
+
+	# before
+	# trap 'rm -r ${tmpdir}' 0
+
+	# main
+
+	# after
+
+snippet     source
+options     head
+prev_word   '^'
+	[ -h ${1:file} || -f $1 ] && . $1
+	${2:}
+snippet		echo
+alias		e
+options		word
+	echo "${0:}"
+snippet		yyyymmdd
+alias		ymd now today
+options		word
+	$(date +%Y%m%d)
+snippet		mkdir_if_not_exists
+alias		mkdirifnotexists
+options		head
+	[ ! -d "${1:path}" ] && mkdir -p "$1"
+snippet		mkdir_if_not_exists_and_cd
+alias		mkdirifnotexistsandcd
+options		head
+	[ ! -d "${1:path}" ] && mkdir -p "$1"
+	cd "$1"
+snippet		valid
+alias	check
+options		head
+prev_word	'^'
+	if [ ${1:cond} ]; then
+		echo 1>&2 "${2:message}";
+		exit 1;
+	fi
+snippet		join
+	"$(IFS=${2:,}; echo "${${1:list}[*]}")"
+snippet		random
+alias		rand
+options		word
+	$((${1:range}*$RANDOM/32767))
+snippet		backup
+alias		cpbk
+options		head
+prev_word	'^'
+	sudo cp ${1:/path/to/file}{,.$(date +%Y%m%d)}
+	${2:#EOS}
+snippet		if_type
+alias		iftype if_which
+options		head
+prev_word	'^'
+	if type ${1:command} >/dev/null 2>&1; then
+		${2:}
+	fi
+snippet		checkparam
+alias		ifcheckparam
+options		head
+prev_word	'^'
+
+	if [ $# -ne 1 ]; then
+		echo "USAGE:"
+		echo "    $(basename \$0) ${1:params}"
+		exit 1
+	fi
+
+	${2:}
+snippet		script_dir_path
+alias		scriptdirpath dirname
+options		head
+prev_word	'^'
+	declare -r SCRIPT_DIR_PATH="$(dirname "$(readlink -f "\$0")")"
+	${0:}
+snippet		script_file_name
+alias		scriptfilename
+options		head
+prev_word	'^'
+	declare -r SCRIPT_FILE_NAME="$(basename "\$0")"
+snippet		is_pipe
+alias		ispipe
+options		head
+prev_word	'^'
+	is_pipe() {
+		if [[ -p /dev/stdin ]]; then
+			return 0
+		else
+			return 1
+		fi
+	}
+
+	is_pipe \
+	  && {
+	    echo yes
+	  } \
+	  || {
+	    echo no
+	  }
+
+snippet		trap
+options		head
+prev_word	'^'
+	trap 'onExit' EXIT
+	onExit () {
+		echo 'exit.'
+	}
+
+	trap 'onStop' 2
+	onStop () {
+		echo 'stop.'
+	}
+snippet		iconv
+options		word
+	iconv -f ${1:cp932} -t ${2:utf8}${0:}
+snippet		home
+options		word
+	${HOME}${0:}
+snippet		prompt
+alias		ps
+options		head
+prev_word	'^'
+	# export PS1='[\t $USER\[\033[1;35m\]@$HOSTNAME\[\033[0m\] $PWD]$ '
+	export PS1='[\t $USER\[\033[1;33m\]@$HOSTNAME\[\033[0m\] $PWD]$ '
+snippet		mysql
+options		word
+	mysql -h ${1:db_host} -u ${2:db_user} -p${3:db_pass} --silent --skip-column-names ${4:db_name} -e "${5:query}"
+snippet		psql
+options		word
+	psql --pset footer --no-align --username ${1:db_user} -h ${2:db_host} --dbname ${3:db_name} --command "${4:query}"
+snippet		vsql
+options		word
+	vsql --pset footer --no-align --username ${1:db_user} -h ${2:db_host} -w ${3:db_pass} --dbname ${4:db_name} --command "${5:query}"
+snippet		pg_dump
+alias		pgdump
+options		word
+	pg_dump \
+		--create \
+		# --clean \
+		# --format=c \
+		# --compress=9 \
+		# --exclude-table= \
+		--encoding=UTF-8 \
+		--no-owner \
+		--host=${1:host} \
+		--port=5432 \
+		--username=${2:username} \
+		${3:dbname} \
+		| gzip -c > $1_$3.pg_dump.gz
+		# --column-inserts
+snippet		pg_restore
+alias		pgrestore
+options		word
+	cat $1_$3.pg_dump | \
+		pg_restore \
+			--clean \
+			--format=c \
+			--host=${1:host} \
+			--username=${2:username} \
+			--dbname=${3:dbname} \
+			--port=5432 \
+			--jobs=${4:4} \
+			/dev/stdin
+snippet		doc_comment
+alias		doccomment
+options		head
+prev_word	'^'
+	# -----------------------------------------------------------------------------
+	# # hoge.sh
+	#
+	# ## Purpose
+	#
+	#
+	# ## Description
+	#
+	#
+	# ## Usage
+	#
+	#
+	# ## Author
+	#
+	#
+	# -----------------------------------------------------------------------------
+snippet		todo
+options		head
+prev_word	'^'
+	# TODO ${0:TARGET}
+snippet		yml
+options		word
+	${1:yyyy}-${2:mm}-${3:dd}
+snippet		beeline
+options		head
+prev_word	'^'
+	beeline -u jdbc:hive2://${1:host}:10000/${2:dbname} --showHeader=false --outputformat=csv2 -e "
+		${3:sql}
+	"
+snippet		log
+options		word
+	{
+		echo "START"
+
+		${0:}
+
+		echo "END"
+	}| while read -r l; do echo "[$(date +"%Y-%m-%d %H:%M:%S")] $(readlink -f \${0}): ${l}"; done
+snippet		<<
+options		word
+	cat <<EOF
+	${0:}
+	EOF
+snippet		::
+options		word
+	| ${0:}
+snippet		mktemp
+alias		tmpfhile
+options		word
+	tmp=$(mktemp)
+	${0:}
+snippet		mysqldump
+options		word
+	mysqldump -h ${1:db_host} -u ${2:db_user} -p${3:db_pass} ${4:db_name} # -c
+snippet		logger
+options		word
+	{
+		echo "START"
+
+		${0:}
+
+		echo "END"
+	}| logger -p "local6.${1:info}" -t "$(readlink -f \${0})"
+snippet		find
+options		head
+prev_word	'^'
+	find "${1:dir}" -type ${2:f} ${0:}
+snippet		if_exists
+alias		ifexists
+options		head
+prev_word	'^'
+	[[ -f "${1:file_path}" ]] && . "$1"
+snippet		ssh
+options		word
+	ssh ${1:user}@${2:host}
+snippet		mail
+options		head
+prev_word	'^'
+	mail() {
+		declare -r MAIL_FROM="\${1}"
+		declare -r MAIL_TO="\${2}"
+		declare -r MAIL_SUBJECT="\${3}"
+		declare -r MAIL_BODY="\${4:-$(cat)}"
+
+		(
+			echo "From: ${MAIL_FROM}"
+			echo "To: ${MAIL_TO}"
+			echo "Subject: ${MAIL_SUBJECT}"
+			echo "Content-Type: text/plain";
+			echo "MIME-Version: 1.0";
+			echo ""
+			echo "${MAIL_BODY}"
+			echo ""
+		) | /usr/sbin/sendmail -i -t
+	}
+snippet		hash
+alias		which checkcommand
+options		head
+prev_word	'^'
+	hash ${1:} >/dev/null 2>&1 || ${0:}
+snippet		pg_dumpall
+alias		pgdumpall
+options		word
+	pg_dumpall \
+		--no-owner \
+		--host=${1:host} \
+		--port=5432 \
+		--username=${2:username} \
+		| gzip -c > $1.pg_dumpall.gz
+snippet		sum
+alias		sum
+options		word
+	awk '{ sum+=\$1 } END { print sum }'
+snippet		repeat
+options		word
+	yes = | head -n ${1:n} | tr -d "\n"
+snippet		here
+alias		heredoc hdoc eof
+options		head
+prev_word	'^'
+	cat <<'EOF'
+	${0:TARGET}
+	EOF
+snippet		yum
+options		head
+prev_word	'^'
+	yum install -y ${0:TARGET}

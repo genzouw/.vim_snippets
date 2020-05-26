@@ -1,0 +1,81 @@
+snippet	h1
+abbr	h1
+prev_word	'^'
+	==================================================
+	${1:`substitute(getline('^'),"^ *h1","","")`}
+	==================================================
+	${2:}
+snippet	h2
+abbr	h2
+	${1:`substitute(getline('^'),"^ *h2","","")`}
+	=============================================
+	${2:}
+snippet	h3
+abbr	h3
+prev_word	'^'
+	----------------------------------------
+	${1:`substitute(getline('^'),"^ *h3","","")`}
+	----------------------------------------
+	${2:}
+snippet	h4
+abbr	h4
+	${1:`substitute(getline('^'),"^ *h4","","")`}
+	-----------------------------------
+	${2:}
+snippet	b
+abbr	str
+abbr	strong
+	 **${1:}** ${2:}
+snippet	i
+abbr	em
+	 *${1:}* ${2:}
+snippet	todo
+abbr	todo
+prev_word	'^'
+	.. todo:: ${1:}
+snippet	pre
+abbr	pre
+prev_word	'^'
+	::
+
+		${1:}
+snippet	 index
+prev_word   '^'
+	最終更新日
+	=============================================
+	|today|
+
+
+	目次
+	====================
+
+	.. toctree::
+		:maxdepth: 3
+		:numbered:
+
+		introduction
+		how_to_install
+		how_to_setting
+snippet	 img
+prev_word   '^'
+	.. image:: img/${1:}
+		:width: 700px
+		:align: center
+snippet	 link
+prev_word   '^'
+	\`${1:} <${2:}>\`_
+snippet	 table
+prev_word   '^'
+	.. table::
+
+		====================	====================
+		${1:}				   ${2:}
+		====================	====================
+		${3:}
+		====================	====================
+snippet	code
+prev_word	'^'
+	.. code-block:: ${1:bash}
+		:linenos:
+
+		${2:}

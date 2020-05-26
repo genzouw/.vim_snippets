@@ -1,0 +1,33 @@
+snippet		<!--
+alias		tag <
+options		word
+	<!--{${1:}}-->
+snippet		$
+options		word
+	<!--{$${1:}}-->
+snippet		date_format
+alias		dateformat
+options		word
+	|date_format:"${1:%Y/%m/%d}"
+snippet		number_format
+alias		numberformat
+prev_word	|
+options		word
+	number_format
+snippet		debug_print_var
+alias		var_dump vardump debugprintvar
+options		word
+	{$${1:var}|@debug_print_var}
+snippet		<!--{if
+options		word
+	if ${1:}}-->${0:}<!--{/if
+snippet		value=
+options		word
+	value="<!--{${0:}}-->"
+snippet		if
+options		word
+	<!--{if ${1:}}-->${0:}<!--{/if}-->
+snippet		assign
+alias		v
+options		word
+	<!--{assign var=${1:} value=${2:}}-->

@@ -1,0 +1,31 @@
+snippet		skel
+alias		boilerplate seq
+options		head
+prev_word	'^'
+	sequenceDiagram
+		participant John
+		participant Alice
+		Alice->>John: Hello John, how are you?
+		John-->>Alice: Great!
+snippet		graph
+alias		graph dataflow flow
+options		head
+prev_word	'^'
+	graph TB
+	    style START fill:lightgreen
+	    style END   fill:lightgreen
+	    style cond fill:lightyellow
+
+	    START((start)) --> cond{start > 0 ?}
+
+	    cond --> |YES| c2
+	    cond --> |NO| a2
+
+	    subgraph one
+	        a2 --> b1
+	    end
+
+	    b1 --> b2
+
+	    c2 --> END((end))
+	    b2 --> END((end))

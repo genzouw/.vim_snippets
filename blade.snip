@@ -1,0 +1,14 @@
+include php.snip
+
+snippet		Form::
+alias		forminput finput
+options		word
+	echo Form::${1:control}(
+		'${2:name}',
+		${3:value},
+		array(
+			'id' => '$2',
+			'class' => "form-control",
+			${0:}
+		)
+	);

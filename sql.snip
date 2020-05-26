@@ -1,0 +1,465 @@
+snippet	select
+alias	sel
+options		word
+	SELECT
+		${2:columns}
+	FROM
+		${1:table} x
+	WHERE
+		${3:}
+	ORDER BY
+		${4:}
+	;
+snippet	del
+alias	delete
+	DELETE
+	FROM
+		${1:table}
+	WHERE
+		${2:key_column} = ${3:key}
+	;
+snippet	ins
+alias	insert
+		INSERT
+		INTO
+			${1:table} (
+				${2:column}
+			)
+		VALUES (
+			${3:value}
+		)
+	;
+snippet	and
+	AND ${1:x}.${2:left} = ${3:}
+	${4:}
+snippet	and_jo
+alias andjo
+	AND ${1:x}.${2:left} = ${3:y}.${4:$2}
+	${5:}
+snippet	jo
+alias ijo
+	INNER JOIN ${1:table} ${2:y}
+		ON (
+		${3:x}.${4:left} = ${5:$2.}${6:$4}
+		${7:}
+	)
+snippet	left_outer_join
+alias leftouterjoin loj ojo
+	LEFT OUTER JOIN ${1:table} ${2:y}
+		ON (
+		${3:x}.${4:left} = ${5:$2.}${6:$4}
+		${7:}
+	)
+snippet     create_table
+alias       createtable
+options     head
+prev_word   '^'
+	DROP TABLE IF EXISTS $1;
+	CREATE TABLE ${1:} (
+		id int not null auto_increment primary key,
+		${2:}
+		created_at timestamp default null,
+		updated_at timestamp default null
+	);
+snippet     exp
+prev_word   '^'
+	set ORACLE_SID=${1:ORCL}
+	set NLS_LANG=JAPANESE_JAPAN.AL32UTF8
+	exp '${2:prog_userid}/${3:prog_password}@${4:scheme} as SYSDBA' file=$4_`strftime("%Y%m%d_%H%M")`.dmp log=$4_`strftime("%Y%m%d_%H%M")`.log owner=($4) statistics=none direct=Y
+	${5:}
+snippet     imp
+prev_word   '^'
+	set ORACLE_SID=${1:ORCL}
+	set NLS_LANG=JAPANESE_JAPAN.AL32UTF8
+	imp '${2:prog_userid}/${3:prog_password}@${4:scheme} as SYSDBA' file=${5:file_name.dmp} log=$4_`strftime("%Y%m%d_%H%M")`.log FROMUSER=${6:fromuser} TOUSER=${7:touser}
+	${8:}
+snippet     create_database
+alias       createdatabase createdb
+prev_word   '^'
+	create database ${1:dbname}
+		default character set utf8;
+
+	grant
+		all privileges
+		-- create,
+		-- drop,
+		-- insert,
+		-- update,
+		-- delete,
+		-- select,
+		-- alter,
+		-- index,
+		-- create view,
+		-- execute,
+		-- create routine,
+		-- alter routine,
+		-- lock tables
+	on $1.*
+		to ${2:schema}@'%'
+		-- to $2@'localhost'
+		identified by '${3:$2}';
+
+	flush privileges;
+
+	-- alter user $2 quota unlimited on ${4:USERS};
+
+	-- FOR postgresql
+	create user $2
+		with password '$3';
+
+	create database $1;
+
+	grant
+		all privileges
+	on database $1
+		to $2;
+
+	${5:}
+snippet     pg_create_database
+alias       pgcreatedatabase pgcreatedb
+prev_word   '^'
+	create database ${1:dbname} with
+		encoding = 'UTF-8'
+		template = template0
+		lc_collate = 'ja_JP.UTF-8'
+		lc_ctype = 'ja_JP.UTF-8';
+
+	create user ${2:username} with password '${3:$2}';
+
+	grant
+		all
+	on
+		-- table1, table2, ...
+		-- all tables in schema public
+		-- schema public
+		database ${1}
+		to $2;
+
+	${4:}
+snippet     oracreate_user
+alias       oracreateuser
+options     head
+prev_word   '^'
+	create user ${1:schema}
+		identified by ${2:$1}
+		default tablespace "${3:USERS}"
+		temporary tablespace TEMP;
+
+	grant
+		connect
+		to $1;
+
+	alter user $1 quota unlimited on $3;
+
+	${4:}
+
+snippet     drop_user
+prev_word   '^'
+	drop user ${1:schema}
+	/
+	${2:}
+snippet     add_foreign_key
+alias     fk addforeignkey alter foreignkey
+options     head
+prev_word   '^'
+	alter table ${1:table} add constraint fk_$1_01 foreign key( ${2:column} ) references ${3:table}( ${4:id} );
+snippet     oragrant
+options     head
+prev_word   '^'
+	grant create materialized view to ${1:schema};
+	grant create materialized view log to $1;
+snippet     upd
+alias       update
+options     head
+prev_word   '^'
+	UPDATE
+		${1:table_name}
+	SET
+		${2:value_column} = ${3:value}
+	WHERE
+		${4:key_column} = ${5:key};
+snippet     add_columns
+alias       addcolumns
+options     head
+prev_word   '^'
+	alter table ${1:table} add column ${2:column} ${3:type} -- after ${4:some column};
+
+	-- FOR postgresql
+	alter table $1 add $2 $3; -- after $4
+snippet     create_synonym
+alias       createsynonym
+options     head
+prev_word   '^'
+	grant
+		insert,
+		update,
+		delete,
+		select,
+		alter
+	on ${1:schema_origin}.${2:object_origin}
+		to ${3:schema_dest}
+	/
+
+	create
+		synonym $3.$2 for $1.$2
+	/
+snippet		revoke
+options		word
+	revoke
+		create,
+		-- drop,
+		insert,
+		update,
+		delete,
+		select,
+		alter,
+		lock tables
+	on $1.*
+		from ${2:schema}@localhost
+snippet     drop_index
+alias       dropindex
+options     head
+prev_word   '^'
+	drop index ${1:index_name} on ${2:table_name};${0:}
+snippet		create_unique_index
+alias		createuniqueindex unique_index uniqueindex
+options		head
+prev_word	'^'
+	create unique index uq_${1:table}_${2:column}
+		on $1 ($2)
+	;
+snippet		create_index
+alias		createindex index
+options		head
+prev_word	'^'
+	create index idx_${1:table}_${2:column}
+		on $1 ($2)
+	;
+snippet		procedure
+alias		proc
+options		head
+prev_word	'^'
+	drop procedure if exists ${1:procedure_name};
+
+	DELIMITER //
+
+	create procedure $1 (
+		IN update_date timestamp
+	)
+	begin
+	--     不要なら削除
+	--     declare exit handler for sqlexception
+	--     begin
+	--         xxxxx;
+	--     end;
+
+		start transaction;
+
+		-- 本処理開始
+		${2:}
+		-- 本処理終了
+
+		commit;
+
+	end //
+
+	DELIMITER ;
+snippet     change_column
+alias       changecolumn
+options     head
+prev_word   '^'
+	alter table ${1:table} change column ${2:old_column} ${3:column} ${4:type}${5:};
+snippet		delete_insert
+alias		deleteinsert delser
+options		head
+prev_word	'^'
+	delete from ${1:scheme}.${2:table};
+	insert into $1.$2 select * from $1.$2;
+	${0:}
+snippet		pg_grant
+alias		pggrant	grantpg
+options		head
+prev_word	'^'
+	grant
+		all
+	on
+		${1:table1, table2, ...}
+		-- all tables in schema public
+		-- schema public
+		to ${2:username};
+snippet     drop_table
+alias       droptable
+options     head
+prev_word   '^'
+	drop table if exists ${1:};
+snippet		password
+options		head
+	alter role ${1:uasername} with password '${2:password}';
+snippet		pg_altercolumn
+alias		pgaltercolumn pgchangecolumn
+options		head
+prev_word	'^'
+	alter table ${1:table}
+		alter column ${2:column}
+		set not null;
+snippet     create_view
+alias       createview
+options     head
+prev_word   '^'
+	DROP VIEW IF EXISTS $1;
+	CREATE OR REPLACE VIEW ${1:} AS
+		select${2:}
+		with read only
+	;
+snippet		snippets_head
+alias		snippetshead dbext skel
+options		head
+prev_word	'^'
+	// dbext:profile=${1:dbhost}_${2:dbname}
+
+	-- ### Add under line To .vimrc file. ###
+	-- let g:dbext_default_profile_$1_$2 = 'type=MYSQL:user=${3:$2}:passwd=${4:$2}:dbname=$2:host=$1:port=3306'
+snippet		pgnvl
+alias		coalesce
+options		word
+	COALESCE(${1:}, 0)
+snippet		case
+options		word
+	CASE ${1:column}
+		WHEN ${2:condition} THEN ${3:value}
+		ELSE ${4:othervalue}
+	END
+snippet		create_table_as_select
+alias		createtableasselect
+options		head
+prev_word	'^'
+	create table ${1:table} as select${0:}
+snippet		truncate_table
+alias		truncatetable
+options		head
+prev_word	'^'
+	truncate table ${1:table};
+snippet		vacuum_check
+alias		vacuumcheck checkvacuum
+options		head
+prev_word	'^'
+	SELECT
+		relname
+		,n_live_tup
+		,n_dead_tup
+		,last_vacuum
+		,last_autovacuum
+	FROM
+		pg_stat_all_tables
+	WHERE
+		relname not like 'pg_%'
+		AND relname = '${1:table_name}'
+	;
+snippet		table_list
+alias		tablelist listtable
+options		head
+prev_word	'^'
+	select
+		relname as TABLE_NAME
+	from
+		pg_stat_user_tables
+	;
+snippet		vacumm_full_analyze
+alias		vacuum vacummfullanalyze
+options		head
+prev_word	'^'
+	vacuum full analyze ${1:table_anme};
+
+snippet		column_list
+alias		columnlist
+options		head
+prev_word	'^'
+	select
+		*
+	from
+		information_schema.columns
+	where
+		table_catalog='${1:db_name}'
+		and table_name not like 'pg_%'
+		and table_schema = 'public'
+	order by
+		table_schema
+		,table_name
+		,ordinal_position
+	;
+snippet		show_users
+alias		showusers
+options		head
+prev_word	'^'
+	select Host, User, Password from mysql.user;
+snippet		check_vacuum
+alias		checkvacuum
+options		head
+prev_word	'^'
+	SELECT
+		n_live_tup
+		,n_dead_tup
+		,last_vacuum
+		,last_autovacuum
+		,relname
+	FROM
+		pg_stat_all_tables
+	WHERE
+		relname LIKE 'dtb_%'
+		OR relname LIKE 'mtb_%'
+	ORDER BY
+		last_autovacuum
+		,relname
+snippet		load_data
+alias		loaddata
+options		head
+prev_word	'^'
+	LOAD DATA LOCAL INFILE '${1:file_path}' INTO
+	TABLE
+		${2:table_name}
+		FIELDS TERMINATED BY ','
+		ENCLOSED BY '"'
+		LINES TERMINATED BY '\n'
+		(
+			@1
+			,@2
+			,@3
+			,@4
+			,@5
+		)
+	SET
+		column1 = @1
+		,column2 = @3
+		,column3 = @2
+	;
+snippet		order
+options		word
+	ORDER BY
+		${0:}
+snippet		drop_column
+alias		dropcolumn
+options		head
+prev_word	'^'
+	alter table ${1:table} drop column ${2:column};
+snippet		drop_foreign_key
+alias		dropforreignkey
+options		head
+prev_word	'^'
+	alter table ${1:table} drop foreign key ${2:foreign_key};
+snippet		col
+alias		cl
+options		head
+prev_word	'^'
+	${1:name} ${2:type} not null,
+snippet		last_value
+alias		lastvalue
+options		word
+	last_value (${1:column} ignore nulls) over (
+	partition by ${2:}
+	order by
+		${3:} RANGE BETWEEN UNBOUNDED preceding AND UNBOUNDED FOLLOWING
+	)
+snippet		fixme
+options		head
+prev_word	'^'
+	-- FIXME ${0:}

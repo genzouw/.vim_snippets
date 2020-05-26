@@ -1,0 +1,14 @@
+snippet	host
+	Host ${1:name}
+		ControlMaster auto
+		ControlPath /tmp/%r@%h:%p
+		ControlPersist yes
+		Hostname ${2:example.com}
+		Protocol 2
+		User ${3:username}
+		IdentityFile ~/.ssh/${4:filename}
+		StrictHostKeyChecking no
+		ServerAliveInterval 180
+		Compression yes
+		TCPKeepAlive yes
+		AddressFamily inet

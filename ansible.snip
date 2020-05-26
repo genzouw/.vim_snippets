@@ -1,0 +1,184 @@
+snippet		apt
+alias		apt-get
+options		word
+	name: Intall apt packages.
+		apt: pkg={{ item }} state=present
+		with_items:
+			- ${0:}
+snippet		yum
+options		word
+	name: Intall yum packages.
+		yum: pkg={{ item }} state=present ${1:#:enablerepo=remi}
+		with_items:
+			- ${0:}
+snippet		npm
+options		word
+	npm:
+			name: ${1:package}
+			global: yes
+			state: ${3:#:present/latest/absent}
+snippet		copy
+options		word
+	copy: src=${1:src} dest=${2:dest} ${3:#:owner=owner} ${4:#:group=group} ${5:#:mode=0644} recurse=yes
+snippet		shell
+options		word
+	name: Install ${0:}.
+		shell: ${1:}
+		args:
+			chdir:
+			creates:
+			executable:
+			free_form:
+			removes:
+			warn:
+snippet		rpm
+options		word
+	rpm: state=${1:installed/removed} file=${2:file}
+snippet		file
+options		word
+	file: path=${1:dest_file} state=${2:#:file/directory/hard/touch/absent} mode=${3:#:666} recurse=yes
+	# - file:
+			# src: ${0}
+			# dest: $1
+			# state: link
+snippet		user
+options		word
+	user: name=${1:name} groups=${2:apache} createhome=${3:no}
+snippet		wait_for
+alias		waitfor
+options		word
+	wait_for: port=22 delay=30 timeout=${1:90}${2:}
+snippet		local_action
+alias		localaction
+options		word
+	local_action:
+			module: ${1:wait_for}
+snippet		ini_file
+alias		inifile ini
+options		head
+prev_word	'^'
+	ini_file: dest=/etc/environment
+				section=present
+				value=/usr/lib/pgsql/data
+				backup=yes
+snippet		service
+options		word
+	service: name=${1:service_name} enabled=yes state=restarted
+snippet		brew
+options		word
+	name: ${0:}.
+		homebrew:
+			name: ${1:name}
+			state: head
+			install_options:
+			update_homebrew:
+			upgrade_all:
+snippet		subversion
+alias		svn
+options		word
+	subversion: repo=${1:url}  username=${2:username} password=${3:password} dest=/usr/local/src/${1:app_name}
+snippet		mail
+options		word
+	mail:
+			from: ${1:from}
+			to: ${2:to}
+			subject: ${3:subject}
+			body: ${4:body}
+snippet		lineinfile
+options		word
+	lineinfile:
+			dest: ${1:filepath}
+			regexp: "{{ item.regexp }}"
+			line: "{{ item.line }}"
+		with_items:
+			- regexp: ${0}
+				line:
+snippet		git
+options		word
+	git: repo=${1:url} dest=${2:dir_path}
+snippet		$
+options		word
+	"{{ ${0:} }}"
+snippet		role
+options		word
+	role: ${1:role_name}
+		tags: [ '${2:tag}' ]
+		${0:}
+snippet		bower
+options		word
+	bower: path=${1:path}
+snippet		unarchive
+alias		unzip
+options		word
+	unarchive: src=${1:src} dest=${2:dest}
+snippet		template
+options		word
+	template:
+			src: ${1:src}
+			dest: ${2:dest}
+			owner: ${3:owner}
+			group: ${4:group}
+			mode: ${5:mode}
+snippet		=
+options		word
+	${1:name}=${2:value}
+snippet		when
+options		head
+prev_word	'^'
+	when: ansible_os_family == '${1:RedHat}'
+snippet		get_url
+alias		geturl
+options		word
+	get_url: url=${1:url} dest=${2:dest} force=True
+snippet		vars
+options		head
+prev_word	'^'
+	vars:
+		${1:key}: ${2:value}
+snippet		:
+options		word
+	${1:key}: ${2:value}
+snippet		debug
+alias		pd
+options		word
+	debug: var=${1:var_name}
+
+snippet		composer
+alias		-composer
+options		word
+	- composer:
+			working_dir: ${1:working_dir}
+			command: ${0:}
+			no_dev:
+			no_plugins:
+			no_scripts:
+			optimize_autoloader:
+			prefer_dist:
+			prefer_source:
+snippet		skel
+options		head
+prev_word	^
+	---
+	- hosts: ${1:host}
+		sudo: yes
+		vars_files:
+		vars:
+		roles:
+		tasks:
+# snippet		env
+# options		work
+	# lookup('env', '${1:HOME}')${0:}
+snippet		ansible_env
+alias		env
+options		work
+	ansible_env.${1:HOME}${0:}
+snippet		gem
+alias		-gem
+options		word
+	- gem:
+			name: "{{ item }}"
+			executable: /usr/local/rvm/rubies/default/bin/gem
+		with_items:
+			- ${0:}
+		environment:
+			PATH: /usr/local/rvm/rubies/default/bin

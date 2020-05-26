@@ -1,0 +1,208 @@
+snippet     common
+alias       begin_end beginend skel
+options     head
+prev_word   '^'
+	Option Explicit
+
+	Public Sub beginScript()
+		Application.ScreenUpdating = False
+		Application.EnableEvents = False
+		Application.Calculation = xlCalculationManual
+		Application.Cursor = xlWait
+		Application.DisplayAlerts = False
+	End Sub
+
+	Public Sub endScript()
+		Application.ScreenUpdating = True
+		Application.EnableEvents = True
+		Application.Calculation = xlCalculationAutomatic
+		Application.Cursor = xlDefault
+		Application.DisplayAlerts = True
+
+		' 強制的に再計算させる
+		'Application.CalculateFull
+	End Sub
+
+	Public Sub ${1:#:procedureName}()
+		On Error GoTo Catch
+
+		beginScript
+
+		Dim book As Workbook
+		Dim sheet As Worksheet
+
+		Set book = ActiveWorkbook
+
+		${2:}
+
+		endScript
+		MsgBox "処理が終了しました。"
+		Exit Sub
+	Catch:
+		endScript
+		MsgBox "エラーが発生したため、処理が終了しました。"
+		Exit Sub
+	End Sub
+snippet     file_write
+alias       filewrite
+options     head
+prev_word   '^'
+	Public Sub write( outputFilePath as String, text as String )
+		Dim writer As Object
+		Set writer = CreateObject("ADODB.Stream")
+
+		With writer
+			.Type = adTypeText
+			.Charset = "UTF-8"
+			.Open
+			.WriteText text
+
+			.Position = 0        'ファイルの先頭に戻り
+			.Type = adTypeBinary 'バイナリに変更して
+			.Position = 3        'BOMの分をスキップ
+
+			Dim w As New ADODB.Stream
+			w.Type = adTypeBinary
+			w.Open
+			.CopyTo w
+			.Close
+			w.SaveToFile outputFilePath, adSaveCreateOverWrite
+			w.Close
+		End With
+	End Sub
+snippet     dim
+options     head
+prev_word   '^'
+	Dim ${1:x} As ${2:String}${3:}
+snippet     for
+options     head
+prev_word   '^'
+	Dim maxRow As Integer
+	maxRow = Range("${1:A1}").End(xlDown).Row
+	For ${2:i} = 1 To ${3:maxRow}
+		${4:}
+	Next $2
+snippet     redim
+options     head
+prev_word   '^'
+	ReDim Preserve ${1:list}(UBound($1))${2:}
+snippet     const
+alias       con
+options     head
+prev_word   '^'
+	Const ${1:X} = ${2:0}${3:}
+snippet     if
+options     head
+prev_word   '^'
+	If ${1:x} ${2:=} ${3:y} Then
+		${4:}
+	End If
+snippet     set
+options     head
+prev_word   '^'
+	Set ${1:x} = ${2:}
+snippet     .cells
+alias       .Cells .Cell .cell
+options     word
+	.Cells(${1:x}, ${2:y}).Value${3:}
+snippet     msgbox
+alias       msg
+options     head
+prev_word   '^'
+	MsgBox ${1:}${2:}
+snippet		proc
+options		head
+	Public Sub ${1:name}()
+		${2:}
+	End Sub
+snippet		replace
+options		word
+	Dim re As RegExp
+	Set re = New RegExp
+	re.Pattern = "${2:src}"
+
+	Dim replacedText = re.Replace(${1:text}, "${3:dest}")
+snippet		skel_caller
+alias		skelcaller
+options		head
+prev_word	'^'
+	' ワークブックを開く時のイベント
+	Private Sub Workbook_Open()
+		' txtに書いてある外部ライブラリを読み込み
+		loadScripts ".\imports.txt"
+	End Sub
+
+
+
+	' -------------------- モジュール読み込みに関する関数 --------------------
+
+
+
+	' 設定ファイルに書いてある外部ライブラリを読み込みます。
+	Sub loadScripts(conf_path)
+
+		' 全モジュールを削除
+		clear_modules
+
+		' 絶対パスに変換
+		conf_path = absPath(conf_path)
+		If Dir(conf_path) = "" Then
+			MsgBox "外部ライブラリ定義" & conf_path & "が存在しません。"
+			Exit Sub
+		End If
+
+		' 読み取り
+		fp = FreeFile
+		Open conf_path For Input As #fp
+		Do Until EOF(fp)
+			' １行ずつ
+			Line Input #fp, temp_str
+			If Len(temp_str) > 0 Then
+				module_path = absPath(temp_str)
+				If Dir(module_path) = "" Then
+					' エラー
+					MsgBox "モジュール" & module_path & "は存在しません。"
+					Exit Do
+				Else
+					' モジュールとして取り込み
+					include module_path
+				End If
+			End If
+		Loop
+		Close #fp
+
+		ThisWorkbook.Save
+	End Sub
+
+
+	' あるモジュールを外部から読み込みます。
+	' パスが.で始まる場合は，相対パスと解釈されます。
+	Sub include(file_path)
+		' 絶対パスに変換
+		file_path = absPath(file_path)
+
+		' 標準モジュールとして登録
+		ThisWorkbook.VBProject.VBComponents.Import file_path
+	End Sub
+
+
+	' 全モジュールを初期化します。
+	Private Sub clear_modules()
+		For Each component In ThisWorkbook.VBProject.VBComponents
+			If component.Type = 1 Then
+				' この標準モジュールを削除
+				ThisWorkbook.VBProject.VBComponents.Remove component
+			End If
+		Next component
+	End Sub
+
+
+	' ファイルパスを絶対パスに変換します。
+	Function absPath(filePath)
+		If Left(filePath, 1) = "." Then
+			filePath = ThisWorkbook.Path & Mid(filePath, 2, Len(filePath) - 1)
+		End If
+
+		absPath = filePath
+	End Function
+

@@ -1,0 +1,39 @@
+snippet	xdec
+		<?xml version="1.0" ecoding="${1:encoding}"?>
+		${2}
+snippet	value
+		<xsl:value-of select="${1:select}"/>
+snippet	wparam
+		<xsl:with-param name="${1:name}" select="${2:select}" />
+snippet	mat
+		<xsl:template match="${1:match}"/>
+			${2}
+		</xsl:template> 
+snippet	out
+		<xsl:output omit-xml-declaration="${1:yes}" method="${2:html}"/>
+snippet	call
+		<xsl:call-template name="${1:template}">
+			${2}
+		</xsl:call-template>
+snippet	var
+		<xsl:variable name="${1:name}"/>
+			${2}
+		</xsl:variable>
+snippet	sty
+		<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+		${1}
+		</xsl:stylesheet>
+snippet	tem
+		<xsl:template name="${1:name}">
+			${2}
+		</xsl:template>
+snippet	choose
+		<xsl:choose>
+			<xsl:when test="${1:test}">
+				${2}
+			</xsl:when>
+			<xsl:otherwise>
+			</xsl:otherwise>
+		</xsl:choose>
+snippet	param
+		<xsl:param name="${1:name}" />

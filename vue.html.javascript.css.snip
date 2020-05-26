@@ -1,0 +1,51 @@
+include html.snip
+
+snippet		vue-form
+alias		vform
+options		head
+prev_word	'^'
+	<div class="form-group form-group-sm">
+	<label for="$1" class="control-label">${2:name}</label>
+	<input
+		type="text"
+		class="form-control"
+		required
+		v-validate="'required'"
+		name="${1:id}"
+		v-model="$1"
+		v-bind:class="{ 'is-invalid': errors.first('$1') }"
+		placeholder="$2"
+		data-vv-as="$2"
+		/>
+	<span class="invalid-feedback">{{ errors.first('$1') }}</span>
+	</div>
+snippet		vue
+alias		vue
+options		head
+prev_word	'^'
+	<template>
+	  <div class="row justify-content-center">
+	     <div class="col-auto">
+	
+	     </div>
+	  </div>
+	</template>
+	
+	<script>
+	export default {
+	  data () {
+	    return {
+	    }
+	  },
+	  async created () {
+	  },
+	  computed: {
+	  },
+	  methods: {
+	  },
+	}
+	</script>
+	
+	<style scope>
+	
+	</style>
