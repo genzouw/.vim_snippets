@@ -77,12 +77,12 @@ prev_word   '^'
 	set -o nounset		# 未定義の変数を利用禁止
 	set -o noclobber	# リダイレクトによる上書禁止
 
-	# ex) opts='ab:cd:'${2:}
-	opts=':${1:}'
+	# ex) OPTS='ab:cd:'${2:}
+	OPTS=':${1:}'
 
 	usage() {
 		echo -n "\${0}"
-		echo "${opts}" \
+		echo "${OPTS}" \
 		  | grep -o '[a-z]:\?' \
 		  | sed 's/^\([a-z]\):$/ [-\1 \U\1\E]/g' \
 		  | sed 's/^\([a-z]\)$/ [-\1]/g' \
@@ -97,17 +97,17 @@ prev_word   '^'
 
 	verbose=off
 
-	while getopts ":${opts}" opt ; do
-		case "${opt}" in
+	while getopts ":${OPTS}" OPT ; do
+		case "${OPT}" in
 			a)
-				echo $opt
+				echo $OPT
 				;;
 			b)
-				echo $opt
+				echo $OPT
 				echo "${OPTARG}"
 				;;
 			c)
-				echo $opt
+				echo $OPT
 				;;
 			v)
 				verbose=on
@@ -120,12 +120,16 @@ prev_word   '^'
 
 	shift $((OPTIND -1))
 
+	# after
+  error_handler() {
+  }
+
+  trap error_handler EXIT
+
 	# before
-	# trap 'rm -r ${tmpdir}' 0
 
 	# main
 
-	# after
 
 snippet     source
 options     head
