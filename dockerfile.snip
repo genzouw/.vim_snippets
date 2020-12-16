@@ -5,8 +5,9 @@ prev_word	'^'
 
 	LABEL maintainer "${3:`$SNS_USERNAME`} <${4:`$PRIVATE_EMAIL`}>"
 
-	RUN apk add --no-cache \
+	RUN apk add \
 	  bash \
+    && rm -f /var/cache/apk/* \
 	  ;
 
 	COPY ./docker-entrypoint.sh /
@@ -70,6 +71,7 @@ prev_word	'^'
 snippet		apk
 options		head
 prev_word	'^'
-	RUN apk add --no-cache \
+	RUN apk add \
 	  bash \
+    && rm -f /var/cache/apk/* \
 	  ;
