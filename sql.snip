@@ -1,52 +1,52 @@
 snippet	select
 alias	sel
 options		word
-	SELECT
+	select
 		${2:columns}
-	FROM
+	from
 		${1:table} x
-	WHERE
+	where
 		${3:}
-	ORDER BY
+	order by
 		${4:}
 	;
 snippet	del
 alias	delete
-	DELETE
-	FROM
+	delete
+	from
 		${1:table}
-	WHERE
+	where
 		${2:key_column} = ${3:key}
 	;
 snippet	ins
 alias	insert
-		INSERT
-		INTO
+		insert
+		into
 			${1:table} (
 				${2:column}
 			)
-		VALUES (
+		values (
 			${3:value}
 		)
 	;
 snippet	and
-	AND ${1:x}.${2:left} = ${3:}
+	and ${1:x}.${2:left} = ${3:}
 	${4:}
 snippet	and_jo
 alias andjo
-	AND ${1:x}.${2:left} = ${3:y}.${4:$2}
+	and ${1:x}.${2:left} = ${3:y}.${4:$2}
 	${5:}
 snippet	jo
 alias ijo
-	INNER JOIN ${1:table} ${2:y}
-		ON (
+	inner join ${1:table} ${2:y}
+		on (
 		${3:x}.${4:left} = ${5:$2.}${6:$4}
 		${7:}
 	)
 snippet	left_outer_join
 alias leftouterjoin loj ojo
-	LEFT OUTER JOIN ${1:table} ${2:y}
-		ON (
+	left outer join ${1:table} ${2:y}
+		on (
 		${3:x}.${4:left} = ${5:$2.}${6:$4}
 		${7:}
 	)
@@ -54,8 +54,8 @@ snippet     create_table
 alias       createtable
 options     head
 prev_word   '^'
-	DROP TABLE IF EXISTS $1;
-	CREATE TABLE ${1:} (
+	drop table if exists $1;
+	create table ${1:} (
 		id int not null auto_increment primary key,
 		${2:}
 		created_at timestamp default null,
@@ -172,11 +172,11 @@ snippet     upd
 alias       update
 options     head
 prev_word   '^'
-	UPDATE
+	update
 		${1:table_name}
-	SET
+	set
 		${2:value_column} = ${3:value}
-	WHERE
+	where
 		${4:key_column} = ${5:key};
 snippet     add_columns
 alias       addcolumns
@@ -263,7 +263,7 @@ prev_word	'^'
 
 	end //
 
-	DELIMITER ;
+	delimiter;
 snippet     change_column
 alias       changecolumn
 options     head
@@ -306,8 +306,8 @@ snippet     create_view
 alias       createview
 options     head
 prev_word   '^'
-	DROP VIEW IF EXISTS $1;
-	CREATE OR REPLACE VIEW ${1:} AS
+	drop view if exists $1;
+	create or replace view ${1:} as
 		select${2:}
 		with read only
 	;
@@ -322,13 +322,13 @@ prev_word	'^'
 snippet		pgnvl
 alias		coalesce
 options		word
-	COALESCE(${1:}, 0)
+	coalesce(${1:}, 0)
 snippet		case
 options		word
-	CASE ${1:column}
-		WHEN ${2:condition} THEN ${3:value}
-		ELSE ${4:othervalue}
-	END
+	case ${1:column}
+		when ${2:condition} then ${3:value}
+		else ${4:othervalue}
+	end
 snippet		create_table_as_select
 alias		createtableasselect
 options		head
@@ -343,24 +343,24 @@ snippet		vacuum_check
 alias		vacuumcheck checkvacuum
 options		head
 prev_word	'^'
-	SELECT
+	select
 		relname
 		,n_live_tup
 		,n_dead_tup
 		,last_vacuum
 		,last_autovacuum
-	FROM
+	from
 		pg_stat_all_tables
-	WHERE
+	where
 		relname not like 'pg_%'
-		AND relname = '${1:table_name}'
+		and relname = '${1:table_name}'
 	;
 snippet		table_list
 alias		tablelist listtable
 options		head
 prev_word	'^'
 	select
-		relname as TABLE_NAME
+		relname as table_name
 	from
 		pg_stat_user_tables
 	;
@@ -396,30 +396,30 @@ snippet		check_vacuum
 alias		checkvacuum
 options		head
 prev_word	'^'
-	SELECT
+	select
 		n_live_tup
 		,n_dead_tup
 		,last_vacuum
 		,last_autovacuum
 		,relname
-	FROM
+	from
 		pg_stat_all_tables
-	WHERE
-		relname LIKE 'dtb_%'
-		OR relname LIKE 'mtb_%'
-	ORDER BY
+	where
+		relname like 'dtb_%'
+		OR relname like 'mtb_%'
+	order by
 		last_autovacuum
 		,relname
 snippet		load_data
 alias		loaddata
 options		head
 prev_word	'^'
-	LOAD DATA LOCAL INFILE '${1:file_path}' INTO
-	TABLE
+	load data local infile '${1:file_path}' into
+	table
 		${2:table_name}
-		FIELDS TERMINATED BY ','
-		ENCLOSED BY '"'
-		LINES TERMINATED BY '\n'
+		fields terminated by ','
+		enclosed by '"'
+		lines terminated by '\n'
 		(
 			@1
 			,@2
@@ -427,14 +427,14 @@ prev_word	'^'
 			,@4
 			,@5
 		)
-	SET
+	set
 		column1 = @1
 		,column2 = @3
 		,column3 = @2
 	;
 snippet		order
 options		word
-	ORDER BY
+	order by
 		${0:}
 snippet		drop_column
 alias		dropcolumn
@@ -457,7 +457,7 @@ options		word
 	last_value (${1:column} ignore nulls) over (
 	partition by ${2:}
 	order by
-		${3:} RANGE BETWEEN UNBOUNDED preceding AND UNBOUNDED FOLLOWING
+		${3:} range between unbounded preceding and unbounded following
 	)
 snippet		fixme
 options		head
