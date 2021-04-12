@@ -49,7 +49,6 @@ alias		aptget
 options		head
 prev_word	'^'
 	RUN apt-get update \
-	  && apt-get upgrade -y \
 	  && apt-get -y install \
 	    --no-install-recommends \
 	    git \
