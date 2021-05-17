@@ -603,3 +603,16 @@ prev_word	'^'
 	
 	  },
 	})
+snippet		head
+alias		shebang
+options		head
+prev_word	'^'
+  #!/usr/bin/env zx
+
+  $.verbose = false;
+
+  ${0:TARGET}
+snippet		shell
+alias		cmd bash sh
+options		word
+  $\`${0}\`
