@@ -68,6 +68,7 @@ options     word
 snippet	cmd_sqlplus
 	sqlplus ${1:user}/${2:password}@${3:dbname} ${4:@file}
 snippet     mail
+options     head
 prev_word   '^'
 	【${1:`$PROJECT`}】${2:subject}
 	--------------------------------------------------
