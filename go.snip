@@ -10,3 +10,21 @@ prev_word	'^'
 	if err != nil {
 		log.Fatal(err)
 	}
+snippet		main
+options		head
+prev_word	'^'
+  package main
+
+  import (
+    "fmt"
+  )
+
+  func main() {
+    ${0:TARGET}
+  }
+snippet		test
+options		head
+prev_word	'^'
+  func Test${1:TestCase}(t *testing.T) {
+    ${0:TARGET}
+  }
